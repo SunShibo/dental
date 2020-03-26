@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jrtc.base.entity.bo.UserBO;
 import com.jrtc.dao.UserDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Service("userService")
 public class UserService  {
-    @Resource
+    @Autowired
     private UserDAO userDao;
 
     /**
@@ -42,11 +42,7 @@ public class UserService  {
     }
 
 
-    public IPage<UserBO> queryAll() {
-        Page<UserBO> page = new Page<UserBO>(1, 5);  // 查询第1页，每页返回5条
-        IPage<UserBO> iPage = userDao.queryAll(page, new UserBO());
-        return   iPage;
-    }
+
     /**
      * 新增数据
      *
@@ -83,8 +79,14 @@ public class UserService  {
         return null;
     }
 
+    /**
+     * 通过手机号查询用户
+     * @param mobile
+     * @return
+     */
     public UserBO queryByPhone(String mobile) {
-        return null;
+        UserBO userBO = userDao.queryByPhone(mobile);
+        return userBO;
     }
 
     public void removeOpenId(Long id, String status) {

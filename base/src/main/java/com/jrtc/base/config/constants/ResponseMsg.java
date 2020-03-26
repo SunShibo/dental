@@ -28,7 +28,9 @@ public class ResponseMsg {
         msg.put("02002","验证码错误");
         msg.put("02003","账号异常");
         msg.put("02004","未绑定手机");
-
+        msg.put("02005","用户不存在");
+        msg.put("02006","密码错误");
+        msg.put("02007","用户已存在");
     }
 
 }

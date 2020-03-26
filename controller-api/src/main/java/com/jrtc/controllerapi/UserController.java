@@ -2,9 +2,9 @@ package com.jrtc.controllerapi;
 
 
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.crypto.SecureUtil;
 import com.aliyuncs.CommonResponse;
 import com.aliyuncs.utils.StringUtils;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jrtc.base.config.constants.Constants;
 import com.jrtc.base.entity.bo.UserBO;
 import com.jrtc.base.entity.dto.ResultDTO;
@@ -14,17 +14,18 @@ import com.jrtc.base.util.RedisUtil;
 import com.jrtc.base.util.SendMessageUtil;
 import com.jrtc.controllerapi.base.BaseCotroller;
 
+import com.jrtc.service.KeyValueService;
 import com.jrtc.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Date;
 
 
 @RestController
@@ -36,21 +37,9 @@ public class UserController extends BaseCotroller {
     private UserService userService;
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private KeyValueService keyValueService;
 
-
-    /**
-     * 查询用户信息
-     *
-     * @param response
-     * @param request
-     * @throws Exception
-     * @return
-     */
-    @RequestMapping("/test")
-    public ResultDTO test(HttpServletResponse response, HttpServletRequest request) throws Exception {
-        IPage<UserBO> userBOIPage = userService.queryAll();
-        return ResultDTOBuilder.success(userBOIPage);
-    }
 
 
     /**
@@ -61,10 +50,10 @@ public class UserController extends BaseCotroller {
      * @param phone
      * @return
      */
-    @RequestMapping("/send")
+    @RequestMapping(value = "/send" ,method = RequestMethod.POST)
     public ResultDTO send(String phone, String templateCode, HttpServletRequest request, HttpServletResponse response) {
         log.info("start...........send.................");
-        if (!verifyParam(phone, templateCode)) {
+        if (!verifyParam(phone)) {
             return ResultDTOBuilder.failure("00001");
         }
         //手机号非空+格式判断
@@ -77,52 +66,63 @@ public class UserController extends BaseCotroller {
         return ResultDTOBuilder.success(commonResponse);
     }
 
+
     /**
-     * 手机号验证通过,对比用户验证码,修改绑定手机号
+     * 登录
      *
-     * @param phone
-     * @param verify 用户验证码
+     * @param phone  手机号
+     * @param password 用户密码
      * @return
      */
-    @RequestMapping("/updatePhone")
-    public ResultDTO updatePhone(String phone, String verify, HttpServletResponse response, HttpServletRequest request) {
-        log.info("start..........updatePhone..................................");
-        if (!verifyParam(phone, verify)) {
+    @RequestMapping(value = "/login" , method = RequestMethod.POST)
+    public ResultDTO login(String phone, String  password, HttpServletResponse response, HttpServletRequest request) {
+        log.info("start.....................register.....................................");
+        //用户传参非空判断
+        if (!verifyParam(phone ,password )) {
             return ResultDTOBuilder.failure("00001");
         }
         if (!AccountValidatorUtil.isMobile(phone)) {
             return ResultDTOBuilder.failure("02000");
         }
-        Object o = redisUtil.get(phone + Constants.CAPTCHA.getValue());
-        if (o == null) {
-            return ResultDTOBuilder.failure("02001");
+        UserBO userBO = userService.queryByPhone(phone);
+        if(userBO==null){
+            //用户不存在
+            return ResultDTOBuilder.failure("02005");
         }
-        String mobileAuthCode = String.valueOf(o);
-        if (!verify.equals(mobileAuthCode)) {
-            return ResultDTOBuilder.failure("02002");
+        //账号状态异常
+        if(!userBO.getStatus().equals( Constants.YES.getValue())){
+            return ResultDTOBuilder.failure("02003");
         }
-        UserBO loginUser = super.getLoginUser(request);
-        UserBO update = userService.update(loginUser);
-        return ResultDTOBuilder.success(update);
+        if(!SecureUtil.md5(password).equals(userBO.getPassword())){
+            return ResultDTOBuilder.failure("02006");
+        }
+        super.putLoginUser(userBO, response);
+        return ResultDTOBuilder.success(userBO);
     }
 
 
     /**
-     * 登录即注册
+     * 注册
      *
-     * @param phone
+     * @param phone  手机号
      * @param verify 用户验证码
+     * @param password 密码
      * @return
      */
-    @RequestMapping("/register")
-    public ResultDTO register(String phone, String verify, HttpServletResponse response, HttpServletRequest request) {
+    @RequestMapping(value = "/register" , method = RequestMethod.POST)
+    public ResultDTO register(String phone, String verify,String password , HttpServletResponse response, HttpServletRequest request) {
         log.info("start.....................register.....................................");
         //用户传参非空判断
-        if (!verifyParam(verify, phone)) {
+        if (!verifyParam(verify, phone,password)) {
             return ResultDTOBuilder.failure("00001");
         }
         if (!AccountValidatorUtil.isMobile(phone)) {
             return ResultDTOBuilder.failure("02000");
+        }
+        UserBO userBO = userService.queryByPhone(phone);
+        if(userBO!=null){
+            //用户已存在
+            return ResultDTOBuilder.failure("02007");
         }
         //获取Redis中的用户验证码
         Object o = redisUtil.get(phone + Constants.CAPTCHA.getValue());
@@ -130,44 +130,90 @@ public class UserController extends BaseCotroller {
             return ResultDTOBuilder.failure("02001");
         }
         String mobileAuthCode = String.valueOf(o);
-        log.info("获取Redis中的用户验证码:{}", mobileAuthCode);
-        Map<String, Object> mapUser = new HashMap<String, Object>();
         //如果和用户收到的验证码相同
         if (!verify.equals(mobileAuthCode)) {
             return ResultDTOBuilder.failure("02002");
         }
-        Map<String, Object> resultMap = new HashMap<String, Object>();
-        //通过手机号查询表中是否有该用户
-    /*    log.info("通过手机号查询表中是否有该用户");
-        UserBO userBO = userService.queryByPhone(phone);
 
-        if (userBO != null) {
-            if (Constants.USABLE.getValue().equals(userBO.getStatus())) {
-                userBO.setLastLoginTime(new Date());
-                userBO.setLastLoginIp(RequestIP.getIPAddress(request));
-                userService.update(userBO);
-                super.putLoginUser(userBO, response);
-            }
-            resultMap.put("isLogin", Constants.YES.getValue());
-            resultMap.put("user", userBO);
-            return ResultDTOBuilder.failure("02003");
-        } else {
-            //注册
-            UserBO newUser = new UserBO();
-            //设置默认昵称
-            newUser.setNickname("用户_" + phone);
-            newUser.setMobile(phone);
-            newUser.setLastLoginTime(new Date());
-            newUser.setLastLoginIp(RequestIP.getIPAddress(request));
-            newUser.setAddTime(new Date());
-            newUser.setStatus(Constants.USABLE.getValue());
-            userService.insert(newUser);
-            super.putLoginUser(newUser, response);
-            resultMap.put("isLogin", Constants.NO.getValue());
-            resultMap.put("user", newUser);
-        }*/
-        return ResultDTOBuilder.success(resultMap);
+        UserBO newUser = new UserBO();
+        //设置默认昵称
+        newUser.setName("用户_" + phone);
+        newUser.setPhone(phone);
+        newUser.setPassword(SecureUtil.md5(password));
+        newUser.setCreateTime(new Date());
+        newUser.setStatus(Constants.YES.getValue());
+        newUser.setHead(keyValueService.getValueByKey( Constants.HEAD.getValue()).getValues()); //获取默认头像
+        userService.insert(newUser);
+        return ResultDTOBuilder.success();
     }
+
+
+    /**
+     * 重置密码
+     */
+    @RequestMapping(value = "/reset" ,method = RequestMethod.POST )
+    public ResultDTO reset(String phone, String verify,String password , HttpServletResponse response, HttpServletRequest request) {
+        //用户传参非空判断
+        if (!verifyParam(verify, phone,password)) {
+            return ResultDTOBuilder.failure("00001");
+        }
+        if (!AccountValidatorUtil.isMobile(phone)) {
+            return ResultDTOBuilder.failure("02000");
+        }
+        UserBO userBO = userService.queryByPhone(phone);
+        if(userBO==null){
+            //用户已存在
+            return ResultDTOBuilder.failure("02005");
+        }
+        //获取Redis中的用户验证码
+        Object o = redisUtil.get(phone + Constants.CAPTCHA.getValue());
+        if (o == null) {
+            return ResultDTOBuilder.failure("02001");
+        }
+        String mobileAuthCode = String.valueOf(o);
+        if (!verify.equals(mobileAuthCode)) {
+            return ResultDTOBuilder.failure("02002");
+        }
+        userBO.setPassword(SecureUtil.md5(password));
+        userService.update(userBO);
+        return ResultDTOBuilder.success();
+    }
+
+
+
+    /**
+     * 修改用户信息
+     *  @param response
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/update" , method = RequestMethod.POST)
+    public ResultDTO updateUser(HttpServletResponse response, HttpServletRequest request, UserBO userParam) {
+        UserBO loginUser = super.getLoginUser(request);
+        userParam.setId(loginUser.getId());
+        if(!StringUtils.isEmpty(userParam.getPassword())){
+            userParam.setPassword(SecureUtil.md5(userParam.getPassword()));
+        }
+        userService.update(userParam);
+        return ResultDTOBuilder.success(userParam);
+    }
+
+    /**
+     * 查询用户信息
+     *
+     * @param response
+     * @param request
+     * @throws Exception
+     * @return
+     */
+    @RequestMapping(value = "/selectUser" ,method = RequestMethod.POST)
+    public ResultDTO<UserBO> selectUser(HttpServletResponse response, HttpServletRequest request) throws Exception {
+        UserBO user = this.getLoginUser(request);
+        UserBO userBO = userService.queryById(user.getId());
+        return ResultDTOBuilder.success(userBO);
+    }
+
+
 
 
     /**
@@ -177,7 +223,7 @@ public class UserController extends BaseCotroller {
      *
      * @return
      */
-    @RequestMapping("/openidLogin")
+   /* @RequestMapping("/openidLogin")
     public ResultDTO openidLogin(HttpServletRequest request, HttpServletResponse response, String openid, String status) {
         log.info("start...............openidLogin..........................................");
         //参数验证
@@ -194,18 +240,16 @@ public class UserController extends BaseCotroller {
         //返回给前端的数据
         Map<String, Object> resultMap = new HashMap<String, Object>();
         UserBO userBO = userService.queryByPhone(mobile);
-        //TODO  小汶数据库增加属性
-     /*   if (!Constants.USABLE.getValue().equals(userBO.getStatus())) {
+        if (!Constants.YES.getValue().equals(userBO.getStatus())) {
             return ResultDTOBuilder.failure("02003");
         }
-        userBO.setLastLoginTime(new Date());
-        userBO.setLastLoginIp(RequestIP.getIPAddress(request));*/
+
         userService.update(userBO);
         super.putLoginUser(userBO, response);
         resultMap.put("isLogin", Constants.YES.getValue());
         resultMap.put("user", userBO);
         return ResultDTOBuilder.success(userBO);
-    }
+    }*/
 
 
     /**
@@ -213,7 +257,7 @@ public class UserController extends BaseCotroller {
      *
      * @return
      */
-    @RequestMapping("/bindOpenidLogin")
+  /*  @RequestMapping("/bindOpenidLogin")
     public ResultDTO bindOpenidLogin(String phone, String verify, String status, String openid, HttpServletRequest request, HttpServletResponse response) {
         log.info("start***********************bindOpenidLogin***********************");
         //用户传参非空判断
@@ -235,8 +279,7 @@ public class UserController extends BaseCotroller {
 
         UserBO userBO = userService.queryByPhone(phone);
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        //TODO  小汶 带完成
-      /*  if (userBO != null) {
+      *//*  if (userBO != null) {
             if (Constants.USABLE.getValue().equals(userBO.getStatus())) {
                 userBO.setLastLoginTime(new Date());
                 userBO.setLastLoginIp(RequestIP.getIPAddress(request));
@@ -271,16 +314,16 @@ public class UserController extends BaseCotroller {
             super.putLoginUser(newUser, response);
             resultMap.put("isLogin", Constants.NO.getValue());
             resultMap.put("user", newUser);
-        }*/
+        }*//*
         return ResultDTOBuilder.success(resultMap);
-    }
+    }*/
 
 
     /**
      * 解除绑定
      * @return
      */
-    @RequestMapping("/removeOpenid")
+   /* @RequestMapping("/removeOpenid")
     public ResultDTO removeOpenid(String status, HttpServletRequest request, HttpServletResponse response) {
         //从cookie中获取他的user对象的id
         UserBO loginUser = super.getLoginUser(request);
@@ -290,35 +333,8 @@ public class UserController extends BaseCotroller {
         }
         userService.removeOpenId(loginUser.getId(),status);
         return ResultDTOBuilder.success();
-    }
+    }*/
 
 
-    /**
-     * 修改用户信息
-     *  @param response
-     * @param request
-     * @return
-     */
-    @RequestMapping("/update")
-    public ResultDTO updateUser(HttpServletResponse response, HttpServletRequest request, UserBO userParam) {
-        UserBO loginUser = super.getLoginUser(request);
-        userParam.setId(loginUser.getId());
-        userService.update(userParam);
-        return ResultDTOBuilder.success(userParam);
-    }
-
-    /**
-     * 查询用户信息
-     *
-     * @param response
-     * @param request
-     * @throws Exception
-     * @return
-     */
-    @RequestMapping("/selectUser")
-    public ResultDTO<UserBO> selectUser(HttpServletResponse response, HttpServletRequest request) throws Exception {
-        UserBO user = this.getLoginUser(request);
-        return ResultDTOBuilder.success(user);
-    }
 
 }

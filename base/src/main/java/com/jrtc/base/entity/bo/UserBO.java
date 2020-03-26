@@ -63,9 +63,42 @@ public class UserBO implements Serializable {
     * 诊断状态
     */
     private String state;
-    
+
+    /**
+     * 头像
+     */
     private String head;
 
+    /**
+     * 账号状态
+     */
+    private String status;
+
+    /**
+     * 医生标识
+     */
+    private String doctor;
+
+
+    public String getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(String doctor) {
+        this.doctor = doctor;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Long getId() {
         return id;

@@ -32,18 +32,18 @@ public class SendMessageUtil {
         request.setVersion("2017-05-25");
         request.setAction("SendSms");
         request.putQueryParameter("PhoneNumbers", mobile);
-        request.putQueryParameter("SignName", "多语咖");
-        request.putQueryParameter("TemplateCode", "SMS_165412502");
+        request.putQueryParameter("SignName", "oOps");
+        request.putQueryParameter("TemplateCode", "SMS_176555605");
         request.putQueryParameter("TemplateParam", "{\"code\":\""+content+"\"}");
-        CommonResponse response=null;
         try {
-            response = client.getCommonResponse(request);
+            CommonResponse response = client.getCommonResponse(request);
+            return response;
         } catch (ServerException e) {
             e.printStackTrace();
         } catch (ClientException e) {
             e.printStackTrace();
         }
-        return response;
+        return null;
     }
 
 

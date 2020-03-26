@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jrtc.base.entity.bo.UserBO;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Component;
 
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  * @author makejava
  * @since 2020-03-26 01:25:29
  */
+@Component
 public interface UserDAO {
 
     /**
@@ -41,7 +43,7 @@ public interface UserDAO {
      * @return 对象列表
      */
 
-    IPage<UserBO> queryAll(Page<UserBO> page, @org.apache.ibatis.annotations.Param("user")UserBO user);
+    IPage<UserBO> queryAll(Page<UserBO> page, @Param("user")UserBO user);
     /**
      * 新增数据
      *
@@ -66,4 +68,5 @@ public interface UserDAO {
      */
     int deleteById(Long id);
 
+    UserBO queryByPhone(String mobile);
 }
