@@ -1,22 +1,31 @@
 package com.jrtc.base.util;
 
-public class PageUtil {
-    private long pageNo=1;
-    private long pageSize=10;
+import com.aliyuncs.utils.StringUtils;
 
-    public long getPageNo() {
+public class PageUtil {
+    private Long pageNo=new Long(1);
+    private Long pageSize=new Long(10);
+
+
+    public Long getPageNo() {
         return pageNo;
     }
 
-    public void setPageNo(long pageNo) {
-        this.pageNo = pageNo;
+    public void setPageNo(String pageNo) {
+        if(!StringUtils.isEmpty(pageNo)){
+            this.pageNo = Long.parseLong(pageNo);
+        }
+
     }
 
-    public long getPageSize() {
+    public Long getPageSize() {
         return pageSize;
     }
 
-    public void setPageSize(long pageSize) {
-        this.pageSize = pageSize;
+    public void setPageSize(String pageSize) {
+        if(!StringUtils.isEmpty(pageSize)){
+            this.pageSize = Long.parseLong(pageSize);
+        }
+
     }
 }

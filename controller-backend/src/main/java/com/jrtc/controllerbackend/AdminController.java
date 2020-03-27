@@ -11,11 +11,11 @@ import com.jrtc.base.util.JsonUtils;
 import com.jrtc.base.util.PageUtil;
 import com.jrtc.controllerbackend.base.BaseCotroller;
 import com.jrtc.service.AdminService;
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
@@ -23,10 +23,10 @@ import java.util.*;
 /**
  * 管理员
  */
-@Controller
+@RestController
 @RequestMapping("/admin")
 public class AdminController extends BaseCotroller {
-    @Resource
+    @Autowired
     private AdminService adminService ;
 
     /**

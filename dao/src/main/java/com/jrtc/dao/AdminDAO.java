@@ -7,12 +7,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jrtc.base.entity.bo.AdminBO;
 import com.jrtc.base.entity.bo.MenuBO;
 import com.jrtc.base.entity.bo.RoleBO;
-import com.jrtc.base.entity.bo.UserBO;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 
+@Component
 public interface AdminDAO {
     /**
      * 通过手机号查找管理员信息

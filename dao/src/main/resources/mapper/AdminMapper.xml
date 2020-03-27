@@ -7,7 +7,7 @@
 
     <!--根据手机号查找管理员信息-->
     <select id="queryAdminInfoByMobile" parameterType="java.lang.String"
-            resultType="com.jrtc.entity.bo.AdminBO">
+            resultType="com.jrtc.base.entity.bo.AdminBO">
         select sys_admin.*,sys_role.id as  roleId
             from  sys_admin left  join sys_role  on  sys_role.id=sys_admin.role_id where  phone_number=  #{phoneNumber}
     </select>

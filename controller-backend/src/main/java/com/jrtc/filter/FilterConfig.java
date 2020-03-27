@@ -5,12 +5,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-
+/*
 @EnableTransactionManagement
-@Configuration
+@Configuration*/
 public class FilterConfig {
 
-    @Bean
+   /* @Bean
     public FilterRegistrationBean registFilter() {
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setFilter(new LogCostFilter());
@@ -18,5 +18,5 @@ public class FilterConfig {
         registration.setName("LogCostFilter");
         registration.setOrder(1);
         return registration;
-    }
+    }*/
 }

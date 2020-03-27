@@ -13,7 +13,7 @@ public class LogCostFilter implements Filter {
         HttpServletRequest servletRequest = (HttpServletRequest) request;
         HttpServletResponse servletResponse = (HttpServletResponse) response;
         String requestUrl = servletRequest.getRequestURI();
-        System.out.println("乌拉》》》》》》");
+        System.out.println("乌拉》》》》》》" +requestUrl);
     }
 
     @Override

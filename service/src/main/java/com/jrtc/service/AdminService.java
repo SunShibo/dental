@@ -12,18 +12,18 @@ import com.jrtc.base.entity.bo.RoleBO;
 import com.jrtc.base.util.JsonUtils;
 import com.jrtc.base.util.PageUtil;
 import com.jrtc.dao.AdminDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.Resource;
 import java.util.*;
 
 @Service("AdminService")
 @Transactional
 public class AdminService {
 
-    @Resource
+    @Autowired
     private AdminDAO adminDAO;
 
     /**
