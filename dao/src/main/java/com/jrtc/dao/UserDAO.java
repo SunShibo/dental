@@ -2,8 +2,10 @@ package com.jrtc.dao;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.jrtc.base.entity.bo.DoctorBO;
 import com.jrtc.base.entity.bo.UserBO;
-import org.springframework.data.repository.query.Param;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 
@@ -69,4 +71,10 @@ public interface UserDAO {
     int deleteById(Long id);
 
     UserBO queryByPhone(String mobile);
+
+    /**
+     * 查询医生id名称
+     * @return
+     */
+    List<DoctorBO> queryDocId();
 }

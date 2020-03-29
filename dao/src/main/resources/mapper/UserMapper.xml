@@ -41,61 +41,61 @@
     </select>
 
     <!--通过实体作为筛选条件查询-->
-    <select id="queryAll1" resultMap="UserMap">
+    <select id="queryAll" resultMap="UserMap">
         select
           id, name, phone, gender, age, region, birthday, organ, diagnose, create_time, password, wxid, doctor_id, state, head ,status ,doctor
         from brace.user
         <where>
-            <if test="id != null">
-                and id = #{id}
+            <if test="user.id != null">
+                and id = #{user.id}
             </if>
-            <if test="name != null and name != ''">
-                and name = #{name}
+            <if test="user.name != null and user.name != ''">
+                and name = #{user.name}
             </if>
-            <if test="phone != null and phone != ''">
-                and phone = #{phone}
+            <if test="user.phone != null and user.phone != ''">
+                and phone = #{user.phone}
             </if>
-            <if test="gender != null and gender != ''">
-                and gender = #{gender}
+            <if test="user.gender != null and user.gender != ''">
+                and gender = #{user.gender}
             </if>
-            <if test="age != null">
-                and age = #{age}
+            <if test="user.age != null">
+                and age = #{user.age}
             </if>
-            <if test="region != null and region != ''">
-                and region = #{region}
+            <if test="user.region != null and user.region != ''">
+                and region = #{user.region}
             </if>
-            <if test="birthday != null">
-                and birthday = #{birthday}
+            <if test="user.birthday != null">
+                and birthday = #{user.birthday}
             </if>
-            <if test="organ != null and organ != ''">
-                and organ = #{organ}
+            <if test="user.organ != null and user.organ != ''">
+                and organ = #{user.organ}
             </if>
-            <if test="diagnose != null and diagnose != ''">
-                and diagnose = #{diagnose}
+            <if test="user.diagnose != null and user.diagnose != ''">
+                and diagnose = #{user.diagnose}
             </if>
-            <if test="createTime != null">
-                and create_time = #{createTime}
+            <if test="user.createTime != null">
+                and create_time = #{user.createTime}
             </if>
-            <if test="password != null and password != ''">
-                and password = #{password}
+            <if test="user.password != null and user.password != ''">
+                and password = #{user.password}
             </if>
-            <if test="wxid != null and wxid != ''">
-                and wxid = #{wxid}
+            <if test="user.wxid != null and user.wxid != ''">
+                and wxid = #{user.wxid}
             </if>
-            <if test="doctorId != null">
-                and doctor_id = #{doctorId}
+            <if test="user.doctorId != null">
+                and doctor_id = #{user.doctorId}
             </if>
-            <if test="state != null and state != ''">
-                and state = #{state}
+            <if test="user.state != null and user.state != ''">
+                and state = #{user.state}
             </if>
-            <if test="head != null and head != ''">
-                and head = #{head}
+            <if test="user.head != null and user.head != ''">
+                and head = #{user.head}
             </if>
-            <if test="status!=null and status!=''">
-                and status=#{status}
+            <if test="user.status!=null and user.status!=''">
+                and status=#{user.status}
             </if>
-            <if test="doctor!=null and doctor!=''">
-                and doctor=#{doctor}
+            <if test="user.doctor!=null and user.doctor!=''">
+                and doctor=#{user.doctor}
             </if>
         </where>
     </select>
@@ -167,13 +167,16 @@
         delete from brace.user where id = #{id}
     </delete>
 
-    <select id="queryAll" resultMap="UserMap" >
-        select * from user
-    </select>
+
 
     <!--通过手机号找查用户-->
     <select id="queryByPhone" resultMap="UserMap" >
         select * from user where phone=#{mobile}
     </select>
 
+
+    <!--查询医生-->
+    <select id="queryDocId" resultType="com.jrtc.base.entity.bo.DoctorBO" >
+        select id,name from user where doctor='yes' and status='yes'
+    </select>
 </mapper>

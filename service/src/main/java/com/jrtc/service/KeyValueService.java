@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
+@Service("keyValueService")
 @Transactional
 public class KeyValueService {
 

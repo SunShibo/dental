@@ -6,17 +6,19 @@
 <mapper namespace="com.jrtc.dao.KeyValueDAO">
 
     <!--查询配置表配置属性-->
-    <select id="selectKey" resultType="java.lang.String"    parameterType="java.lang.String">
+    <select id="getValueByKey" resultType="java.lang.String"    parameterType="java.lang.String">
         SELECT `values` FROM sys_key_value
         where
           `key`=#{key}
     </select>
 
     <!--查询配置表配置属性-->
-    <select id="selectKeys" resultType="com.jrtc.base.entity.bo.KeyValueBO">
+    <select id="getKeyValueList" resultType="com.jrtc.base.entity.bo.KeyValueBO">
         SELECT * FROM sys_key_value
     </select>
 
-
+    <update id="updKeyValue" parameterType="com.jrtc.base.entity.bo.KeyValueBO"   >
+        update sys_key_value set `values`=#{values}  where  id=#{id}
+    </update>
 
 </mapper>

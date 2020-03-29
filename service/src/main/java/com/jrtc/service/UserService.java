@@ -2,7 +2,9 @@ package com.jrtc.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.jrtc.base.entity.bo.DoctorBO;
 import com.jrtc.base.entity.bo.UserBO;
+import com.jrtc.base.util.PageUtil;
 import com.jrtc.dao.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +43,14 @@ public class UserService  {
         return this.userDao.queryAllByLimit(offset, limit);
     }
 
-
+    /**
+     * 分页查询用户
+     */
+    public IPage<UserBO> queryAll(PageUtil pageUtil,UserBO user) {
+        Page<UserBO> page = new Page<UserBO>(pageUtil.getPageNo(), pageUtil.getPageSize());  // 查询第1页，每页返回5条
+        IPage<UserBO> iPage =userDao.queryAll(page,user);
+        return iPage;
+    }
 
     /**
      * 新增数据
@@ -90,7 +99,10 @@ public class UserService  {
     }
 
     public void removeOpenId(Long id, String status) {
+    }
 
 
+    public List<DoctorBO> queryDocId() {
+        return  userDao.queryDocId();
     }
 }
