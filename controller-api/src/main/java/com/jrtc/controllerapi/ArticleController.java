@@ -78,7 +78,7 @@ public class ArticleController extends BaseCotroller {
     }
 
     /**
-     * 查询文章或案例评论
+     * 添加文章或案例评论
      *
      * @param request
      * @param response

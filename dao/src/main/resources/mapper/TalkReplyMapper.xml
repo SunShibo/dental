@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jrtc.dao.TalkReplyDAO">
+
+    <resultMap type="com.jrtc.base.entity.bo.TalkReplyBO" id="TalkReplyMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="cId" column="c_id" jdbcType="INTEGER"/>
+        <result property="replayId" column="replay_id" jdbcType="INTEGER"/>
+        <result property="replayName" column="replay_name" jdbcType="VARCHAR"/>
+        <result property="replayHead" column="replay_head" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="userHead" column="user_head" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TalkReplyMap">
+        select
+          id, c_id, replay_id, replay_name, replay_head, content, user_id, user_name, user_head, create_time
+        from brace.talk_reply
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TalkReplyMap">
+        select
+          id, c_id, replay_id, replay_name, replay_head, content, user_id, user_name, user_head, create_time
+        from brace.talk_reply
+        where c_id=#{mentId}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TalkReplyMap">
+        select
+          id, c_id, replay_id, replay_name, replay_head, content, user_id, user_name, user_head, create_time
+        from brace.talk_reply
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="cId != null">
+                and c_id = #{cId}
+            </if>
+            <if test="replayId != null">
+                and replay_id = #{replayId}
+            </if>
+            <if test="replayName != null and replayName != ''">
+                and replay_name = #{replayName}
+            </if>
+            <if test="replayHead != null and replayHead != ''">
+                and replay_head = #{replayHead}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="userName != null and userName != ''">
+                and user_name = #{userName}
+            </if>
+            <if test="userHead != null and userHead != ''">
+                and user_head = #{userHead}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into brace.talk_reply(c_id, replay_id, replay_name, replay_head, content, user_id, user_name, user_head, create_time)
+        values (#{cId}, #{replayId}, #{replayName}, #{replayHead}, #{content}, #{userId}, #{userName}, #{userHead}, #{createTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update brace.talk_reply
+        <set>
+            <if test="cId != null">
+                c_id = #{cId},
+            </if>
+            <if test="replayId != null">
+                replay_id = #{replayId},
+            </if>
+            <if test="replayName != null and replayName != ''">
+                replay_name = #{replayName},
+            </if>
+            <if test="replayHead != null and replayHead != ''">
+                replay_head = #{replayHead},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="userName != null and userName != ''">
+                user_name = #{userName},
+            </if>
+            <if test="userHead != null and userHead != ''">
+                user_head = #{userHead},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from brace.talk_reply where id = #{id}
+    </delete>
+
+</mapper>

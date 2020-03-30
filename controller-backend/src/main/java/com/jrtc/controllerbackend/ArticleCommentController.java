@@ -26,7 +26,7 @@ public class ArticleCommentController extends BaseCotroller {
 
 
     /**
-     * 删除文章或案例
+     * 删除文章或案例评论
      *
      * @param request
      * @param response
@@ -60,5 +60,20 @@ public class ArticleCommentController extends BaseCotroller {
     }
 
 
+    /**
+     * 置顶评论
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/stickArticMent", method = RequestMethod.POST)
+    public ResultDTO stickArticMent(HttpServletRequest request, HttpServletResponse response, Long id) {
+        if(!verifyParam(id)){
+            return ResultDTOBuilder.failure("00001");
+        }
+        articleCommentService.stickArticMent(id);
+        return ResultDTOBuilder.success();
+    }
 
 }

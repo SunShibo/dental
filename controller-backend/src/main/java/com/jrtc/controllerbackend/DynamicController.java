@@ -1,11 +1,11 @@
 package com.jrtc.controllerbackend;
 
 
-import com.jrtc.base.entity.bo.SchemeBO;
+import com.jrtc.base.entity.bo.DynamicBO;
 import com.jrtc.base.entity.dto.ResultDTO;
 import com.jrtc.base.entity.dto.ResultDTOBuilder;
 import com.jrtc.controllerbackend.base.BaseCotroller;
-import com.jrtc.service.SchemeService;
+import com.jrtc.service.DynamicService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,43 +20,43 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/scheme")
-public class SchemeController extends BaseCotroller {
-    static final Logger log = LoggerFactory.getLogger(SchemeController.class);
+@RequestMapping("/dynamic")
+public class DynamicController extends BaseCotroller {
+    static final Logger log = LoggerFactory.getLogger(DynamicController.class);
 
     @Autowired
-    private SchemeService schemeService;
+    private DynamicService dynamicService;
 
 
     /**
-     * 添加方案
+     * 添加动态方案
      *  @param response
      * @param request
      * @return
      */
-    @RequestMapping(value = "/addScheme" , method = RequestMethod.POST)
-    public ResultDTO queryDocId(HttpServletResponse response, HttpServletRequest request, SchemeBO  schemeBO) {
-        if(!verifyParam(schemeBO.getImg(),schemeBO.getUserId())){
+    @RequestMapping(value = "/addDynamic" , method = RequestMethod.POST)
+    public ResultDTO queryDocId(HttpServletResponse response, HttpServletRequest request, DynamicBO dynamicBO) {
+        if(!verifyParam(dynamicBO.getImg(),dynamicBO.getType(),dynamicBO.getUserId())){
             return ResultDTOBuilder.failure("00001");
         }
-        schemeBO.setCreateTime(new Date());
-        schemeService.insert(schemeBO);
+        dynamicBO.setCreateTime(new Date());
+        dynamicService.insert(dynamicBO);
         return ResultDTOBuilder.success();
     }
 
 
     /**
-     * 删除方案
+     * 删除动态方案
      *  @param response
      * @param request
      * @return
      */
-    @RequestMapping(value = "/delScheme" , method = RequestMethod.POST)
+    @RequestMapping(value = "/delDynamic" , method = RequestMethod.POST)
     public ResultDTO delScheme(HttpServletResponse response, HttpServletRequest request, Long id) {
         if(!verifyParam(id)){
             return ResultDTOBuilder.failure("00001");
         }
-        schemeService.deleteById(id);
+        dynamicService.deleteById(id);
         return ResultDTOBuilder.success();
     }
 
@@ -67,28 +67,28 @@ public class SchemeController extends BaseCotroller {
      * @param request
      * @return
      */
-    @RequestMapping(value = "/queryScheme" , method = RequestMethod.POST)
-    public ResultDTO queryScheme(HttpServletResponse response, HttpServletRequest request, Long userId) {
+    @RequestMapping(value = "/queryDynamic" , method = RequestMethod.POST)
+    public ResultDTO queryScheme(HttpServletResponse response, HttpServletRequest request, Long userId,String type) {
         if(!verifyParam(userId)){
             return ResultDTOBuilder.failure("00001");
         }
-        List<SchemeBO> schemeBOS = schemeService.queryAllByUserId(userId);
-        return ResultDTOBuilder.success(schemeBOS);
+        List<DynamicBO> dynamicBOS = dynamicService.queryAllByType(userId, type);
+        return ResultDTOBuilder.success(dynamicBOS);
     }
 
 
     /**
-     * 修改方案
+     * 查询方案
      *  @param response
      * @param request
      * @return
      */
-    @RequestMapping(value = "/updScheme" , method = RequestMethod.POST)
-    public ResultDTO queryScheme(HttpServletResponse response, HttpServletRequest request, SchemeBO schemeBO) {
-        if(!verifyParam(schemeBO.getImg(),schemeBO.getId())){
+    @RequestMapping(value = "/updDynamic" , method = RequestMethod.POST)
+    public ResultDTO queryScheme(HttpServletResponse response, HttpServletRequest request, DynamicBO dynamicBO) {
+        if(!verifyParam(dynamicBO.getImg(),dynamicBO.getType(),dynamicBO.getId())){
             return ResultDTOBuilder.failure("00001");
         }
-        schemeService.update(schemeBO);
+        dynamicService.update(dynamicBO);
         return ResultDTOBuilder.success();
     }
 }

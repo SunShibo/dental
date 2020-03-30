@@ -3,14 +3,11 @@ package com.jrtc.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jrtc.base.config.constants.Constants;
-import com.jrtc.base.entity.bo.ArticleBO;
 import com.jrtc.base.entity.bo.ArticleCommentBO;
 import com.jrtc.base.util.PageUtil;
 import com.jrtc.dao.ArticleCommentDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 
 
@@ -80,5 +77,21 @@ public class ArticleCommentService  {
             articleCommentDao.update(articleCommentBO);
         }
         return true;
+    }
+
+    /**
+     * 置顶评论
+     * @param id
+     */
+    public void stickArticMent(Long id) {
+        ArticleCommentBO articleCommentBO = articleCommentDao.queryById(id);
+        if(articleCommentBO!=null){
+            if(articleCommentBO.getPId()!=null && articleCommentBO.getPId().equals(Long.parseLong("0"))){
+                articleCommentBO.setPId(Long.parseLong("1"));
+            }else{
+                articleCommentBO.setPId(Long.parseLong("0"));
+            }
+            articleCommentDao.update(articleCommentBO);
+        }
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 文章/案例
@@ -88,8 +89,9 @@ public class ArticleController extends BaseCotroller {
      */
     @RequestMapping(value = "/queryArtic", method = RequestMethod.POST)
     public ResultDTO updArtic(HttpServletRequest request, HttpServletResponse response, PageUtil pageUtil, String title,String type) {
-        IPage<ArticleBO> admins = articleService.queryAllByTitle(pageUtil, title,type);
-        return ResultDTOBuilder.success(admins);
+        IPage<ArticleBO> articles = articleService.queryAllByTitle(pageUtil, title,type);
+        List<ArticleBO> records = articles.getRecords();
+        return ResultDTOBuilder.success(articles);
     }
 
 

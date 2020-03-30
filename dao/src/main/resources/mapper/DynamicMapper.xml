@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jrtc.dao.DynamicDAO">
+
+    <resultMap type="com.jrtc.base.entity.bo.DynamicBO" id="DynamicMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="img" column="img" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="sort" column="sort" />
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="DynamicMap">
+        select
+          id, user_id, type, img, create_time, sort
+        from brace.dynamic
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByType" resultMap="DynamicMap">
+        select
+          id, user_id, type, img, create_time, sort
+        from brace.dynamic
+        where user_id=#{userId}
+        <if test="type!=null and type!=''" >
+            and type=#{type}
+        </if>
+
+        order by sort ASC
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="DynamicMap">
+        select
+          id, user_id, type, img, create_time, sort
+        from brace.dynamic
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="img != null and img != ''">
+                and img = #{img}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="sort != null ">
+                and sort = #{sort}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into brace.dynamic(user_id, type, img, create_time, sort)
+        values (#{userId}, #{type}, #{img}, #{createTime}, #{sort})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update brace.dynamic
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="img != null and img != ''">
+                img = #{img},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="sort != null ">
+                sort = #{sort},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from brace.dynamic where id = #{id}
+    </delete>
+
+</mapper>

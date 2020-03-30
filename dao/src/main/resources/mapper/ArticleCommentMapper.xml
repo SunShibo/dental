@@ -27,7 +27,7 @@
           select
           c.* ,u.name  ,u.head
         from brace.article_comment c  LEFT JOIN  user u ON  u.id= c.user_id
-       where c.status='yes'  and c.c_id=#{id}  order by create_time DESC
+       where c.status='yes'  and c.c_id=#{id}  order by p_id DESC, create_time ASC
     </select>
 
     <!--通过实体作为筛选条件查询-->

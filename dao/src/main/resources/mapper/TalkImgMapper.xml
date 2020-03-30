@@ -1,42 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.jrtc.dao.BannerDAO">
+<mapper namespace="com.jrtc.dao.TalkImgDAO">
 
-    <resultMap type="com.jrtc.base.entity.bo.BannerBO" id="BannerMap">
+    <resultMap type="com.jrtc.base.entity.bo.TalkImgBO" id="TalkImgMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
-        <result property="sort" column="sort" jdbcType="VARCHAR"/>
         <result property="tId" column="t_id" jdbcType="INTEGER"/>
         <result property="img" column="img" jdbcType="VARCHAR"/>
-        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <!--查询单个-->
-    <select id="queryById" resultMap="BannerMap">
+    <select id="queryById" resultMap="TalkImgMap">
         select
-          id, sort, t_id, img, create_time
-        from brace.banner
+          id, t_id, img
+        from brace.talk_img
         where id = #{id}
     </select>
 
     <!--查询指定行数据-->
-    <select id="queryAllByLimit" resultMap="BannerMap">
+    <select id="queryAllByLimit" resultMap="TalkImgMap">
         select
-          id, sort, t_id, img, create_time
-        from brace.banner
-        order by sort ASC
+          id, t_id, img
+        from brace.talk_img
+        limit #{offset}, #{limit}
     </select>
 
     <!--通过实体作为筛选条件查询-->
-    <select id="queryAll" resultMap="BannerMap">
+    <select id="queryAll" resultMap="TalkImgMap">
         select
-          id, sort, t_id, img, create_time
-        from brace.banner
+          id, t_id, img
+        from brace.talk_img
         <where>
             <if test="id != null">
                 and id = #{id}
-            </if>
-            <if test="sort != null and sort != ''">
-                and sort = #{sort}
             </if>
             <if test="tId != null">
                 and t_id = #{tId}
@@ -44,33 +39,24 @@
             <if test="img != null and img != ''">
                 and img = #{img}
             </if>
-            <if test="createTime != null">
-                and create_time = #{createTime}
-            </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into brace.banner(sort, t_id, img, create_time)
-        values (#{sort}, #{tId}, #{img}, #{createTime})
+        insert into brace.talk_img(t_id, img)
+        values (#{tId}, #{img})
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
-        update brace.banner
+        update brace.talk_img
         <set>
-            <if test="sort != null and sort != ''">
-                sort = #{sort},
-            </if>
             <if test="tId != null">
                 t_id = #{tId},
             </if>
             <if test="img != null and img != ''">
                 img = #{img},
-            </if>
-            <if test="createTime != null">
-                create_time = #{createTime},
             </if>
         </set>
         where id = #{id}
@@ -78,7 +64,7 @@
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from brace.banner where id = #{id}
+        delete from brace.talk_img where id = #{id}
     </delete>
 
 </mapper>
