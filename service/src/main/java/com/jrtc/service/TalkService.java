@@ -4,7 +4,6 @@ import com.aliyuncs.utils.StringUtils;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jrtc.base.config.constants.Constants;
-import com.jrtc.base.entity.bo.ArticleCommentBO;
 import com.jrtc.base.entity.bo.TalkBO;
 import com.jrtc.base.entity.bo.TalkImgBO;
 import com.jrtc.base.entity.bo.UserBO;

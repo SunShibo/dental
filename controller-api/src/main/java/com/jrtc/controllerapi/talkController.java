@@ -42,30 +42,32 @@ public class talkController extends BaseCotroller {
 
     /**
      * 添加说说
-     *  @param response
+     *
+     * @param response
      * @param request
      * @return
      */
-    @RequestMapping(value = "/addTalk" , method = RequestMethod.POST)
-    public ResultDTO queryScheme(HttpServletResponse response, HttpServletRequest request, String content,String imgJsonStr) {
-        if(!verifyParam(content)){
+    @RequestMapping(value = "/addTalk", method = RequestMethod.POST)
+    public ResultDTO queryScheme(HttpServletResponse response, HttpServletRequest request, String content, String imgJsonStr) {
+        if (!verifyParam(content)) {
             return ResultDTOBuilder.failure("00001");
         }
         UserBO loginUser = super.getLoginUser(request);
-        talkService.insert(loginUser,content,imgJsonStr);
+        talkService.insert(loginUser, content, imgJsonStr);
         return ResultDTOBuilder.success();
     }
 
 
     /**
      * 删除说说
-     *  @param response
+     *
+     * @param response
      * @param request
      * @return
      */
-    @RequestMapping(value = "/delTalk" , method = RequestMethod.POST)
-    public ResultDTO delTalk(HttpServletResponse response, HttpServletRequest request,Long talkId) {
-        if(talkId==null){
+    @RequestMapping(value = "/delTalk", method = RequestMethod.POST)
+    public ResultDTO delTalk(HttpServletResponse response, HttpServletRequest request, Long talkId) {
+        if (talkId == null) {
             return ResultDTOBuilder.failure("00001");
         }
         TalkBO talkBO = talkService.queryById(talkId);
@@ -75,42 +77,56 @@ public class talkController extends BaseCotroller {
     }
 
 
-
     /**
      * 说说点赞
-     *  @param response
+     *
+     * @param response
      * @param request
      * @return
      */
-    @RequestMapping(value = "/updLike" , method = RequestMethod.POST)
+    @RequestMapping(value = "/updLike", method = RequestMethod.POST)
     public ResultDTO updLike(HttpServletResponse response, HttpServletRequest request, Long id) {
-        if(!verifyParam(id)){
+        if (!verifyParam(id)) {
             return ResultDTOBuilder.failure("00001");
         }
         UserBO loginUser = super.getLoginUser(request);
-        talkLikeService.insert(loginUser.getId(),id);
+        talkLikeService.insert(loginUser.getId(), id);
         return ResultDTOBuilder.success();
     }
 
     /**
      * 查询说说列表
+     *
      * @param
      */
-    @RequestMapping(value = "/queryTalk" , method = RequestMethod.POST)
+    @RequestMapping(value = "/queryTalk", method = RequestMethod.POST)
     public ResultDTO queryTalk(HttpServletResponse response, HttpServletRequest request, PageUtil pageUtil) {
         UserBO loginUser = super.getLoginUser(request);
         IPage<TalkBO> talkBOIPage = talkService.queryAllByLimit(loginUser.getId(), pageUtil);
         return ResultDTOBuilder.success(talkBOIPage);
     }
 
+    /**
+     * 查询说说详情
+     *
+     * @param
+     */
+    @RequestMapping(value = "/queryTalkById", method = RequestMethod.POST)
+    public ResultDTO queryTalkById(HttpServletResponse response, HttpServletRequest request, Long id) {
+        if (id==null) {
+            return ResultDTOBuilder.failure("00001");
+        }
+        TalkBO talkBO = talkService.queryById(id);
+        return ResultDTOBuilder.success(talkBO);
+    }
 
 
     /**
      * 查询说说评论
      */
-    @RequestMapping(value = "/queryTalkCmt" , method = RequestMethod.POST)
-    public ResultDTO queryTalkCmt(HttpServletResponse response, HttpServletRequest request, PageUtil pageUtil,Long talkId) {
-        if(talkId==null){
+    @RequestMapping(value = "/queryTalkCmt", method = RequestMethod.POST)
+    public ResultDTO queryTalkCmt(HttpServletResponse response, HttpServletRequest request, PageUtil pageUtil, Long talkId) {
+        if (talkId == null) {
             return ResultDTOBuilder.failure("00001");
         }
         IPage<TalkCommentBO> comments = talkCommentService.queryAllByLimit(pageUtil, talkId);
@@ -120,23 +136,23 @@ public class talkController extends BaseCotroller {
     /**
      * 添加评论
      */
-    @RequestMapping(value = "/addTalkCmt" , method = RequestMethod.POST)
+    @RequestMapping(value = "/addTalkCmt", method = RequestMethod.POST)
     public ResultDTO addTalkCmt(HttpServletResponse response, HttpServletRequest request, TalkCommentBO talkCommentBO) {
-        if(!verifyParam(talkCommentBO.getContent(),talkCommentBO.getTId())){
+        if (!verifyParam(talkCommentBO.getContent(), talkCommentBO.getTId())) {
             return ResultDTOBuilder.failure("00001");
         }
         UserBO loginUser = super.getLoginUser(request);
 
-        talkCommentService.insert(loginUser,talkCommentBO);
+        talkCommentService.insert(loginUser, talkCommentBO);
         return ResultDTOBuilder.success();
     }
 
     /**
      * 删除评论
      */
-    @RequestMapping(value = "/delTalkCmt" , method = RequestMethod.POST)
+    @RequestMapping(value = "/delTalkCmt", method = RequestMethod.POST)
     public ResultDTO delTalkCmt(HttpServletResponse response, HttpServletRequest request, Long commentId) {
-        if(commentId==null){
+        if (commentId == null) {
             return ResultDTOBuilder.failure("00001");
         }
         TalkCommentBO talkCommentBO = talkCommentService.queryById(commentId);
@@ -149,9 +165,9 @@ public class talkController extends BaseCotroller {
     /**
      * 查询评论回复
      */
-    @RequestMapping(value = "/queryReply" , method = RequestMethod.POST)
-    public ResultDTO queryReply(HttpServletResponse response, HttpServletRequest request, PageUtil pageUtil,Long commentId) {
-        if(commentId==null){
+    @RequestMapping(value = "/queryReply", method = RequestMethod.POST)
+    public ResultDTO queryReply(HttpServletResponse response, HttpServletRequest request, PageUtil pageUtil, Long commentId) {
+        if (commentId == null) {
             return ResultDTOBuilder.failure("00001");
         }
         IPage<TalkReplyBO> replys = talkReplyService.queryAllByLimit(pageUtil, commentId);
@@ -162,28 +178,27 @@ public class talkController extends BaseCotroller {
     /**
      * 添加评论回复
      */
-    @RequestMapping(value = "/addReply" , method = RequestMethod.POST)
-    public ResultDTO addReply(HttpServletResponse response, HttpServletRequest request,TalkReplyBO talkReplyBO) {
-        if(!verifyParam(talkReplyBO.getCId(),talkReplyBO.getContent(),talkReplyBO.getReplayName(),talkReplyBO.getReplayId(),talkReplyBO.getReplayHead())){
+    @RequestMapping(value = "/addReply", method = RequestMethod.POST)
+    public ResultDTO addReply(HttpServletResponse response, HttpServletRequest request, TalkReplyBO talkReplyBO) {
+        if (!verifyParam(talkReplyBO.getCId(), talkReplyBO.getContent(), talkReplyBO.getReplayName(), talkReplyBO.getReplayId(), talkReplyBO.getReplayHead())) {
             return ResultDTOBuilder.failure("00001");
         }
         UserBO loginUser = super.getLoginUser(request);
-        talkReplyService.insert(loginUser,talkReplyBO);
+        talkReplyService.insert(loginUser, talkReplyBO);
         return ResultDTOBuilder.success();
     }
 
     /**
      * 添加评论回复
      */
-    @RequestMapping(value = "/delReply" , method = RequestMethod.POST)
-    public ResultDTO delReply(HttpServletResponse response, HttpServletRequest request,Long replyId) {
-        if(replyId==null){
+    @RequestMapping(value = "/delReply", method = RequestMethod.POST)
+    public ResultDTO delReply(HttpServletResponse response, HttpServletRequest request, Long replyId) {
+        if (replyId == null) {
             return ResultDTOBuilder.failure("00001");
         }
         talkReplyService.deleteById(replyId);
         return ResultDTOBuilder.success();
     }
-
 
 
 }
