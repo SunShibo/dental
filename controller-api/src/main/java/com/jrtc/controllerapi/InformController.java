@@ -80,8 +80,9 @@ public class InformController extends BaseCotroller {
         InformBO informBO = informService.queryById(id);
         if(informBO!=null){
             informBO.setStatus(Constants.YES.getValue());
+            informService.update(informBO);
         }
-        informService.update(informBO);
+
         return ResultDTOBuilder.success();
     }
 
