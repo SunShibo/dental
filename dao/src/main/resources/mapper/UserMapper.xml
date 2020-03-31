@@ -179,4 +179,41 @@
     <select id="queryDocId" resultType="com.jrtc.base.entity.bo.DoctorBO" >
         select id,name from user where doctor='yes' and status='yes'
     </select>
+
+    <select id="queryCount"  resultType="int" >
+            SELECT count(*) FROM `user` WHERE state=#{state}  AND doctor_id=#{doctorId} AND status='yes'
+    </select>
+
+
+    <resultMap type="com.jrtc.base.entity.bo.PatientBO" id="PatientMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="head" column="head" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="diagnose" column="diagnose" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+
+    <select id="queryPatient" resultMap="PatientMap">
+        select
+        *
+        from brace.user
+        <where>
+            <if test="user.doctorId != null">
+                and doctor_id = #{user.doctorId}
+            </if>
+            <if test="user.state != null and user.state != ''">
+                and state = #{user.state}
+            </if>
+            <if test="user.status!=null and user.status!=''">
+                and status=#{user.status}
+            </if>
+
+        </where>
+    </select>
+
+
+
 </mapper>

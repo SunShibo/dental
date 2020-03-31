@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jrtc.dao.ConsultDAO">
+
+    <resultMap type="com.jrtc.base.entity.bo.ConsultBO" id="ConsultMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="read" column="read" jdbcType="VARCHAR"/>
+        <result property="cation" column="cation" jdbcType="VARCHAR"/>
+        <result property="doctorId" column="doctor_id" jdbcType="INTEGER"/>
+        <collection property="imgs" ofType="com.jrtc.base.entity.bo.ConsultImgBO" >
+            <result property="id" column="mid"/>
+            <result property="cId" column="c_id"/>
+            <result property="img" column="img"/>
+        </collection>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ConsultMap">
+        select
+          id, user_id, `status`, create_time, content, `read`, cation, doctor_id
+        from brace.consult
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ConsultMap">
+        select
+          c.id, user_id, status, create_time, content, `read`, cation, doctor_id,m.id mid ,m.c_id ,m.img
+        from brace.consult c left join consult_img m on  c.id=m.c_id where status='yes'
+
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ConsultMap">
+        select
+          id, user_id, status, create_time, content, read, cation, doctor_id
+        from brace.consult
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="read != null and read != ''">
+                and read = #{read}
+            </if>
+            <if test="cation != null and cation != ''">
+                and cation = #{cation}
+            </if>
+            <if test="doctorId != null">
+                and doctor_id = #{doctorId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into brace.consult(user_id, `status`, create_time, content, `read`, cation, doctor_id)
+        values (#{userId}, #{status}, #{createTime}, #{content}, #{read}, #{cation}, #{doctorId})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update brace.consult
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="read != null and read != ''">
+                `read` = #{read},
+            </if>
+            <if test="cation != null and cation != ''">
+                cation = #{cation},
+            </if>
+            <if test="doctorId != null">
+                doctor_id = #{doctorId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from brace.consult where id = #{id}
+    </delete>
+
+    <select id="queryReply" resultType="int" >
+        select count(*)  from consult where "read"='no' and user_id=#{userId} and cation=#{cation} and status='yes'
+    </select>
+
+    <select id="queryCount" resultType="int">
+        select count(*) from consult where status='yes' and user_id=#{userId}
+    </select>
+
+</mapper>

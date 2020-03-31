@@ -3,6 +3,7 @@ package com.jrtc.dao;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jrtc.base.entity.bo.DoctorBO;
+import com.jrtc.base.entity.bo.PatientBO;
 import com.jrtc.base.entity.bo.UserBO;
 
 import org.apache.ibatis.annotations.Param;
@@ -77,4 +78,8 @@ public interface UserDAO {
      * @return
      */
     List<DoctorBO> queryDocId();
+
+    int queryCount(@Param("state")String state,@Param("doctorId")Long doctorId);
+
+    IPage<PatientBO>  queryPatient(Page<PatientBO> page ,@Param("user")UserBO userBO);
 }

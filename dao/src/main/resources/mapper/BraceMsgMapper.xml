@@ -10,8 +10,7 @@
         <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
         <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
         <result property="status" column="status" jdbcType="VARCHAR"/>
-        <result property="status" column="status" jdbcType="VARCHAR"/>
-        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="stage" column="stage" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
@@ -104,7 +103,7 @@
 
     <!--当前这一副-->
     <select id="queryThis"  resultMap="BraceMsgMap" >
-        SELECT m.* FROM brace b LEFT JOIN `brace_msg` m on m.b_id=b.id   where  #{date}>=start_time and #{date}&lt;= end_time  and m.status='yes' and b.status='yes'  ORDER BY start_time ASC LIMIT 0 , 1
+        SELECT b.stage,m.* FROM brace b LEFT JOIN `brace_msg` m on m.b_id=b.id   where  #{date}>=start_time and #{date}&lt;= end_time  and m.status='yes' and b.status='yes'  ORDER BY start_time ASC LIMIT 0 , 1
     </select>
 
 </mapper>

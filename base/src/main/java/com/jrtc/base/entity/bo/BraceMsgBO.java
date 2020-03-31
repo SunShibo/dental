@@ -38,6 +38,8 @@ public class BraceMsgBO implements Serializable {
 
     private String status;
 
+    private String stage;
+
     public Long getId() {
         return id;
     }
@@ -92,5 +94,25 @@ public class BraceMsgBO implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Long getbId() {
+        return bId;
+    }
+
+    public void setbId(Long bId) {
+        this.bId = bId;
+    }
+
+    public String getStage() {
+        return stage;
+    }
+
+    public void setStage(String stage) {
+        this.stage = stage;
     }
 }
