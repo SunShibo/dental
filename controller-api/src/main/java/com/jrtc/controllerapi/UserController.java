@@ -12,7 +12,7 @@ import com.jrtc.base.entity.dto.ResultDTOBuilder;
 import com.jrtc.base.util.AccountValidatorUtil;
 import com.jrtc.base.util.RedisUtil;
 import com.jrtc.base.util.SendMessageUtil;
-import com.jrtc.controllerapi.base.BaseCotroller;
+import com.jrtc.controllerapi.base.BaseController;
 
 import com.jrtc.service.KeyValueService;
 import com.jrtc.service.UserService;
@@ -30,7 +30,7 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/user")
-public class UserController extends BaseCotroller {
+public class UserController extends BaseController {
     static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @Autowired

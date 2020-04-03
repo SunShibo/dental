@@ -7,7 +7,7 @@ import com.jrtc.base.entity.bo.UserBO;
 import com.jrtc.base.entity.dto.ResultDTO;
 import com.jrtc.base.entity.dto.ResultDTOBuilder;
 import com.jrtc.base.util.DateUtil;
-import com.jrtc.controllerapi.base.BaseCotroller;
+import com.jrtc.controllerapi.base.BaseController;
 import com.jrtc.service.BraceMsgService;
 import com.jrtc.service.BraceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/brace")
-public class BraceController extends BaseCotroller {
+public class BraceController extends BaseController {
     @Autowired
     private BraceService braceService;
     @Autowired

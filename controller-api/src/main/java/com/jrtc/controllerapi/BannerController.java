@@ -3,7 +3,7 @@ package com.jrtc.controllerapi;
 import com.jrtc.base.entity.bo.BannerBO;
 import com.jrtc.base.entity.dto.ResultDTO;
 import com.jrtc.base.entity.dto.ResultDTOBuilder;
-import com.jrtc.controllerapi.base.BaseCotroller;
+import com.jrtc.controllerapi.base.BaseController;
 import com.jrtc.service.BannerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/banner")
-public class BannerController extends BaseCotroller {
+public class BannerController extends BaseController {
     @Autowired
     private BannerService bannerService;
 

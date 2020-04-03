@@ -4,7 +4,7 @@ package com.jrtc.controllerapi;
 import com.jrtc.base.entity.bo.SchemeBO;
 import com.jrtc.base.entity.dto.ResultDTO;
 import com.jrtc.base.entity.dto.ResultDTOBuilder;
-import com.jrtc.controllerapi.base.BaseCotroller;
+import com.jrtc.controllerapi.base.BaseController;
 import com.jrtc.service.SchemeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/scheme")
-public class SchemeController extends BaseCotroller {
+public class SchemeController extends BaseController {
     static final Logger log = LoggerFactory.getLogger(SchemeController.class);
 
     @Autowired

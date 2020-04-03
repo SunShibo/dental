@@ -5,7 +5,7 @@ import com.jrtc.base.entity.bo.UserBO;
 import com.jrtc.base.entity.dto.ResultDTO;
 import com.jrtc.base.entity.dto.ResultDTOBuilder;
 import com.jrtc.base.util.PageUtil;
-import com.jrtc.controllerapi.base.BaseCotroller;
+import com.jrtc.controllerapi.base.BaseController;
 import com.jrtc.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/doctor")
-public class DoctorController extends BaseCotroller {
+public class DoctorController extends BaseController {
     static final Logger log = LoggerFactory.getLogger(DoctorController.class);
 
 

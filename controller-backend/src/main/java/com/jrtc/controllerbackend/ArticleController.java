@@ -5,7 +5,7 @@ import com.jrtc.base.entity.bo.ArticleBO;
 import com.jrtc.base.entity.dto.ResultDTO;
 import com.jrtc.base.entity.dto.ResultDTOBuilder;
 import com.jrtc.base.util.PageUtil;
-import com.jrtc.controllerbackend.base.BaseCotroller;
+import com.jrtc.controllerbackend.base.BaseController;
 import com.jrtc.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/artic")
-public class ArticleController extends BaseCotroller {
+public class ArticleController extends BaseController {
     @Autowired
     private ArticleService articleService;
 

@@ -14,7 +14,7 @@ import java.io.PrintWriter;
 import java.util.UUID;
 
 @Component
-public class BaseCotroller {
+public class BaseController {
     private static final long EXPIRY=60 * 60 * 24 * 30;//缓存有效期
     private static final String CURRENT_LOGIN_USER="currentLoginAdmin";  //标识
 

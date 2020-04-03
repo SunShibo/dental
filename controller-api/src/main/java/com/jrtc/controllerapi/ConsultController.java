@@ -8,7 +8,7 @@ import com.jrtc.base.entity.bo.UserBO;
 import com.jrtc.base.entity.dto.ResultDTO;
 import com.jrtc.base.entity.dto.ResultDTOBuilder;
 import com.jrtc.base.util.PageUtil;
-import com.jrtc.controllerapi.base.BaseCotroller;
+import com.jrtc.controllerapi.base.BaseController;
 import com.jrtc.service.ConsultService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/consult")
-public class ConsultController extends BaseCotroller {
+public class ConsultController extends BaseController {
     static final Logger log = LoggerFactory.getLogger(ConsultController.class);
 
 

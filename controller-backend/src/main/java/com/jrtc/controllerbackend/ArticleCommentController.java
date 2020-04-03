@@ -5,7 +5,7 @@ import com.jrtc.base.entity.bo.ArticleCommentBO;
 import com.jrtc.base.entity.dto.ResultDTO;
 import com.jrtc.base.entity.dto.ResultDTOBuilder;
 import com.jrtc.base.util.PageUtil;
-import com.jrtc.controllerbackend.base.BaseCotroller;
+import com.jrtc.controllerbackend.base.BaseController;
 import com.jrtc.service.ArticleCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RestController
 @RequestMapping("/articMent")
-public class ArticleCommentController extends BaseCotroller {
+public class ArticleCommentController extends BaseController {
     @Autowired
     private ArticleCommentService articleCommentService;
 

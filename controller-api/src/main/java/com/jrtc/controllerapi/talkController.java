@@ -10,7 +10,7 @@ import com.jrtc.base.entity.bo.UserBO;
 import com.jrtc.base.entity.dto.ResultDTO;
 import com.jrtc.base.entity.dto.ResultDTOBuilder;
 import com.jrtc.base.util.PageUtil;
-import com.jrtc.controllerapi.base.BaseCotroller;
+import com.jrtc.controllerapi.base.BaseController;
 import com.jrtc.service.TalkCommentService;
 import com.jrtc.service.TalkLikeService;
 import com.jrtc.service.TalkReplyService;
@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/talk")
-public class talkController extends BaseCotroller {
+public class talkController extends BaseController {
     static final Logger log = LoggerFactory.getLogger(talkController.class);
 
     @Autowired

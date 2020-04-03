@@ -7,7 +7,7 @@ import com.jrtc.base.entity.bo.UserBO;
 import com.jrtc.base.entity.dto.ResultDTO;
 import com.jrtc.base.entity.dto.ResultDTOBuilder;
 import com.jrtc.base.util.PageUtil;
-import com.jrtc.controllerapi.base.BaseCotroller;
+import com.jrtc.controllerapi.base.BaseController;
 import com.jrtc.service.ArticleCommentService;
 import com.jrtc.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import java.util.Date;
  */
 @RestController
 @RequestMapping("/artic")
-public class ArticleController extends BaseCotroller {
+public class ArticleController extends BaseController {
 
     @Autowired
     private ArticleService articleService;

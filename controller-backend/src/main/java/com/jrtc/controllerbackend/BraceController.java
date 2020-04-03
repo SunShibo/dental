@@ -4,7 +4,7 @@ import com.jrtc.base.config.constants.Constants;
 import com.jrtc.base.entity.bo.BraceBO;
 import com.jrtc.base.entity.dto.ResultDTO;
 import com.jrtc.base.entity.dto.ResultDTOBuilder;
-import com.jrtc.controllerbackend.base.BaseCotroller;
+import com.jrtc.controllerbackend.base.BaseController;
 import com.jrtc.service.BraceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +20,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/brace")
-public class BraceController extends BaseCotroller {
+public class BraceController extends BaseController {
     @Autowired
     private BraceService braceService;
 

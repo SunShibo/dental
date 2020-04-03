@@ -9,7 +9,7 @@ import com.jrtc.base.entity.dto.ResultDTO;
 import com.jrtc.base.entity.dto.ResultDTOBuilder;
 import com.jrtc.base.util.JsonUtils;
 import com.jrtc.base.util.PageUtil;
-import com.jrtc.controllerbackend.base.BaseCotroller;
+import com.jrtc.controllerbackend.base.BaseController;
 import com.jrtc.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -25,7 +25,7 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("/admin")
-public class AdminController extends BaseCotroller {
+public class AdminController extends BaseController {
     @Autowired
     private AdminService adminService ;
 

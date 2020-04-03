@@ -1,14 +1,11 @@
 package com.jrtc.controllerbackend;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.jrtc.base.config.constants.Constants;
-import com.jrtc.base.entity.bo.BannerBO;
 import com.jrtc.base.entity.bo.InformBO;
 import com.jrtc.base.entity.dto.ResultDTO;
 import com.jrtc.base.entity.dto.ResultDTOBuilder;
 import com.jrtc.base.util.PageUtil;
-import com.jrtc.controllerbackend.base.BaseCotroller;
-import com.jrtc.service.BannerService;
+import com.jrtc.controllerbackend.base.BaseController;
 import com.jrtc.service.InformService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,15 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.List;
 
 /**
  * 用户通知
  */
 @RestController
 @RequestMapping("/inform")
-public class InformController extends BaseCotroller {
+public class InformController extends BaseController {
 
     @Autowired
     private InformService informService;

@@ -8,7 +8,7 @@ import com.jrtc.base.entity.bo.UserBO;
 import com.jrtc.base.entity.dto.ResultDTO;
 import com.jrtc.base.entity.dto.ResultDTOBuilder;
 import com.jrtc.base.util.PageUtil;
-import com.jrtc.controllerbackend.base.BaseCotroller;
+import com.jrtc.controllerbackend.base.BaseController;
 import com.jrtc.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
-public class UserController extends BaseCotroller {
+public class UserController extends BaseController {
     static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @Autowired

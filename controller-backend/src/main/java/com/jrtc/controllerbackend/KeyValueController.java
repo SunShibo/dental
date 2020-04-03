@@ -4,7 +4,7 @@ package com.jrtc.controllerbackend;
 import com.jrtc.base.entity.bo.KeyValueBO;
 import com.jrtc.base.entity.dto.ResultDTO;
 import com.jrtc.base.entity.dto.ResultDTOBuilder;
-import com.jrtc.controllerbackend.base.BaseCotroller;
+import com.jrtc.controllerbackend.base.BaseController;
 import com.jrtc.service.KeyValueService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/keyValue")
-public class KeyValueController extends BaseCotroller {
+public class KeyValueController extends BaseController {
     @Resource
     private KeyValueService keyValueService ;
 
