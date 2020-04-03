@@ -17,9 +17,10 @@ import java.util.Map;
 
 public class StsUtil {
 
+    // knorr  https://knorr.oss-cn-beijing.aliyuncs.com
 
-    private static final String accessKeyId = "LTAI4FiejWGnEEjQ5k42XhJG";
-    private static final String accessKeySecret = "8rf9OrKkaqYuqI3mf929TAuUShkimp";
+    private static final String accessKeyId = "LTAI4FtzUT7MfYjYt3TytRGx";
+    private static final String accessKeySecret = "52594tRyMXF0JTnCsJ7WRyParAU5T1";
     // 目前只有"cn-hangzhou"这个region可用，不要使用填写其他region的值
     public static final String REGION_CN_HANGZHOU = "cn-hangzhou";
     // 当前 STS API 版本
@@ -87,7 +88,9 @@ public class StsUtil {
 
     public static void main(String[]  args){
         Map<String, String> testa = getStsOss("testa");
-
+        for(String str:testa.keySet()){
+            System.out.println(str+":::"+testa.get(str));
+        }
 
     }
 
@@ -112,7 +115,7 @@ public class StsUtil {
         ProtocolType protocolType = ProtocolType.HTTPS;
         final AssumeRoleResponse response;
         try {
-            response = assumeRole(accessKeyId, accessKeySecret,"acs:ram::1425770854837301:role/oss", roleSessionName, policy, protocolType);
+            response = assumeRole(accessKeyId, accessKeySecret,"acs:ram::1256385111664955:role/oss", roleSessionName, policy, protocolType);
             resultMap.put("expiration",response.getCredentials().getExpiration());
             resultMap.put("tempAk",response.getCredentials().getAccessKeyId());
             resultMap.put("tempSk",response.getCredentials().getAccessKeySecret());

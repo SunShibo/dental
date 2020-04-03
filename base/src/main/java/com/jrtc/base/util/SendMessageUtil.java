@@ -17,8 +17,8 @@ import com.aliyuncs.profile.DefaultProfile;
  */
 public class SendMessageUtil {
 
-    static String accessKeyId="LTAIrYEzjhGJigUM";
-    static String accessSecret="KG9W4CwP3kAjnNEx9eiU40XtboouNZ";
+    static String accessKeyId="LTAI4FtzUT7MfYjYt3TytRGx";
+    static String accessSecret="52594tRyMXF0JTnCsJ7WRyParAU5T1";
 
 
     public static CommonResponse sendSignInCodeMessage(String mobile, String content,String templateCode){
@@ -32,8 +32,8 @@ public class SendMessageUtil {
         request.setVersion("2017-05-25");
         request.setAction("SendSms");
         request.putQueryParameter("PhoneNumbers", mobile);
-        request.putQueryParameter("SignName", "oOps");
-        request.putQueryParameter("TemplateCode", "SMS_176555605");
+        request.putQueryParameter("SignName", "佳乐隐形矫正");
+        request.putQueryParameter("TemplateCode", "SMS_186920246");
         request.putQueryParameter("TemplateParam", "{\"code\":\""+content+"\"}");
         try {
             CommonResponse response = client.getCommonResponse(request);
@@ -47,5 +47,8 @@ public class SendMessageUtil {
     }
 
 
+    public static void main(String[] args){
+        sendSignInCodeMessage("15214440324","666666","");
+    }
 
 }
