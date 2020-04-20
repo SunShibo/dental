@@ -14,7 +14,6 @@
         <result property="organ" column="organ" jdbcType="VARCHAR"/>
         <result property="diagnose" column="diagnose" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-        <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="wxid" column="wxid" jdbcType="VARCHAR"/>
         <result property="doctorId" column="doctor_id" jdbcType="INTEGER"/>
         <result property="state" column="state" jdbcType="VARCHAR"/>
@@ -210,10 +209,14 @@
             <if test="user.status!=null and user.status!=''">
                 and status=#{user.status}
             </if>
-
         </where>
     </select>
 
+    <select id="queryUserByPhone" resultType="int" >
+  select
+          count(id)
+        from brace.user  where phone=#{phone}
+    </select>
 
 
 </mapper>

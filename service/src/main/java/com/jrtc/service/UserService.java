@@ -12,6 +12,8 @@ import com.jrtc.base.util.PageUtil;
 import com.jrtc.dao.BraceMsgDAO;
 import com.jrtc.dao.ConsultDAO;
 import com.jrtc.dao.UserDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,7 @@ import java.util.Map;
  */
 @Service("userService")
 public class UserService  {
+    static final Logger log = LoggerFactory.getLogger(UserService.class);
     @Autowired
     private UserDAO userDao;
     @Autowired
@@ -119,26 +122,39 @@ public class UserService  {
     }
 
     public Map<String,Object> queryPatient(String state,Long doctorId,PageUtil pageUtil) {
-
+        log.info("计算时间");
         String date = DateUtil.simpDateStr("yyyy-MM-dd",new Date());
-
+        log.info("state："+state);
+        log.info("doctorId："+doctorId);
         Map<String,Object> result=new HashMap<String,Object>();
         int underway = userDao.queryCount("underway", doctorId);
+        log.info("underway："+underway);
         int accomplish = userDao.queryCount("accomplish", doctorId);
+        log.info("accomplish："+accomplish);
+
         UserBO userBO=new UserBO();
         userBO.setState(Constants.YES.getValue());
         userBO.setDoctorId(doctorId);
         userBO.setState(state);
+        log.info("查询："+accomplish);
         Page<PatientBO> page = new Page<PatientBO>(pageUtil.getPageNo(), pageUtil.getPageSize());
+        log.info("查询中");
         IPage<PatientBO> patientBOIPage = userDao.queryPatient(page, userBO);
+        log.info("查询结果："+patientBOIPage);
         List<PatientBO> records = patientBOIPage.getRecords();
+        log.info("对象集size："+records.size());
         if(records!=null && records.size()>0){
             for(PatientBO patient:records){
+                log.info("进入循环："+patient);
                 int consult = consultDAO.queryReply(patient.getId(), "user");
+                log.info("consult："+consult);
                 patient.setConsult(consult);
                 BraceMsgBO braceMsgBO = braceMsgDao.queryThis(date, patient.getId());
+                log.info("braceMsgBO："+braceMsgBO);
                 if(braceMsgBO!=null){
+                    log.info("braceMsgBO：!=null)");
                     patient.setStage(braceMsgBO.getStage()+braceMsgBO.getName());
+                    log.info("braceMsgBO.getStage()+braceMsgBO.getName()"+braceMsgBO.getStage()+braceMsgBO.getName());
                 }
 
             }
@@ -146,6 +162,11 @@ public class UserService  {
         result.put("underway",underway);
         result.put("accomplish",accomplish);
         result.put("patient",patientBOIPage);
+        log.info("service结束"+result);
         return result;
+    }
+
+    public int queryUserByPhone(String phone) {
+        return userDao.queryUserByPhone(phone);
     }
 }

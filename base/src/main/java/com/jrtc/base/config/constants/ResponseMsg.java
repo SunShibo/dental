@@ -31,6 +31,7 @@ public class ResponseMsg {
         msg.put("02005","用户不存在");
         msg.put("02006","密码错误");
         msg.put("02007","用户已存在");
+        msg.put("02008","手机号已绑定账号");
     }
 
 }

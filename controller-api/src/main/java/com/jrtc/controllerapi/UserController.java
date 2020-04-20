@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.Serializable;
 import java.util.Date;
 
 
@@ -76,7 +77,8 @@ public class UserController extends BaseController {
      */
     @RequestMapping(value = "/login" , method = RequestMethod.POST)
     public ResultDTO login(String phone, String  password, HttpServletResponse response, HttpServletRequest request) {
-        log.info("start.....................register.....................................");
+
+      log.info("start.....................register.....................................");
         //用户传参非空判断
         if (!verifyParam(phone ,password )) {
             return ResultDTOBuilder.failure("00001");
@@ -142,7 +144,8 @@ public class UserController extends BaseController {
         newUser.setPassword(SecureUtil.md5(password));
         newUser.setCreateTime(new Date());
         newUser.setStatus(Constants.YES.getValue());
-        newUser.setHead(keyValueService.getValueByKey( Constants.HEAD.getValue()).getValues()); //获取默认头像
+         String values = keyValueService.getValueByKey(Constants.HEAD.getValue()).getValues();
+        newUser.setHead(values); //获取默认头像
         userService.insert(newUser);
         return ResultDTOBuilder.success();
     }
@@ -206,13 +209,41 @@ public class UserController extends BaseController {
      * @throws Exception
      * @return
      */
+    @RequestMapping(value = "/queryUserByPhone" ,method = RequestMethod.POST)
+    public ResultDTO queryUserByPhone(HttpServletResponse response, HttpServletRequest request,String phone,String verify) throws Exception {
+        if (!verifyParam(verify, phone)) {
+            return ResultDTOBuilder.failure("00001");
+        }
+
+        //获取Redis中的用户验证码
+        Object o = redisUtil.get(phone + Constants.CAPTCHA.getValue());
+        if (o == null) {
+            return ResultDTOBuilder.failure("02001");
+        }
+
+        String mobileAuthCode = String.valueOf(o);
+        if (!verify.equals(mobileAuthCode)) {
+            return ResultDTOBuilder.failure("02002");
+        }
+
+        return ResultDTOBuilder.success();
+    }
+
+
+    /**
+     * 查询用户信息
+     *
+     * @param response
+     * @param request
+     * @throws Exception
+     * @return
+     */
     @RequestMapping(value = "/selectUser" ,method = RequestMethod.POST)
-    public ResultDTO<UserBO> selectUser(HttpServletResponse response, HttpServletRequest request) throws Exception {
+    public ResultDTO selectUser(HttpServletResponse response, HttpServletRequest request) throws Exception {
         UserBO user = this.getLoginUser(request);
         UserBO userBO = userService.queryById(user.getId());
         return ResultDTOBuilder.success(userBO);
     }
-
 
 
 

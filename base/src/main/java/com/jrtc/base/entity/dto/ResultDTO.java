@@ -2,16 +2,16 @@ package com.jrtc.base.entity.dto;
 
 import java.io.Serializable;
 
-public class ResultDTO<T> implements Serializable {
-    private boolean success = true;
-    protected String code ;
-    protected String msg ;
-    protected T data ;
+public class ResultDTO implements Serializable {
+    public boolean success = true;
+    public String code ;
+    public String msg ;
+    public Object data ;
 
     public ResultDTO() {
     }
 
-    public ResultDTO(boolean success, String code, String msg, T data) {
+    public ResultDTO(boolean success, String code, String msg, Object data) {
         this.success = success;
         this.code = code;
         this.msg = msg;
@@ -43,11 +43,11 @@ public class ResultDTO<T> implements Serializable {
         this.msg = msg;
     }
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(Object data) {
         this.data = data;
     }
 }

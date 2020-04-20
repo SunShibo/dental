@@ -10,8 +10,7 @@ import java.io.Serializable;
  * @since 2020-03-26 01:25:28
  */
 public class UserBO implements Serializable {
-    private static final long serialVersionUID = 382602452224283670L;
-    
+
     private Long id;
     /**
     * 姓名
@@ -88,9 +87,7 @@ public class UserBO implements Serializable {
         this.doctor = doctor;
     }
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
+
 
     public String getStatus() {
         return status;

@@ -41,8 +41,11 @@ public class DoctorController extends BaseController {
         if (!verifyParam(state)) {
             return ResultDTOBuilder.failure("00001");
         }
+        log.info("获取登录用户");
         UserBO loginUser = getLoginUser(request);
+        log.info("调用service");
         Map<String, Object> resultMap = userService.queryPatient(state, loginUser.getId(), pageUtil);
+        log.info("返回信息");
         return ResultDTOBuilder.success(resultMap);
     }
 

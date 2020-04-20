@@ -6,7 +6,7 @@
 <mapper namespace="com.jrtc.dao.KeyValueDAO">
 
     <!--查询配置表配置属性-->
-    <select id="getValueByKey" resultType="java.lang.String"    parameterType="java.lang.String">
+    <select id="getValueByKey" resultType="com.jrtc.base.entity.bo.KeyValueBO"    parameterType="java.lang.String">
         SELECT `values` FROM sys_key_value
         where
           `key`=#{key}

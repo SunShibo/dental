@@ -82,4 +82,6 @@ public interface UserDAO {
     int queryCount(@Param("state")String state,@Param("doctorId")Long doctorId);
 
     IPage<PatientBO>  queryPatient(Page<PatientBO> page ,@Param("user")UserBO userBO);
+
+    int queryUserByPhone(@Param("phone") String phone);
 }
