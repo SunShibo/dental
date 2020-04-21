@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 public class InterceptorConfig extends WebMvcConfigurationSupport {
 
 
-   /* @Override
+   @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(getAccessInterceptor()).addPathPatterns("/**");
         super.addInterceptors(registry);
@@ -18,7 +18,7 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
     @Bean
     public LogCostInterceptor getAccessInterceptor(){
         return new LogCostInterceptor();
-    }*/
+    }
 
 
 

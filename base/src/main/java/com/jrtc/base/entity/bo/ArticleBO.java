@@ -1,6 +1,7 @@
 package com.jrtc.base.entity.bo;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * (Article)实体类
@@ -35,6 +36,7 @@ public class ArticleBO implements Serializable {
     */
     private String status;
 
+    private Date createTime;
 
     public Long getId() {
         return id;
@@ -84,4 +86,11 @@ public class ArticleBO implements Serializable {
         this.status = status;
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 }

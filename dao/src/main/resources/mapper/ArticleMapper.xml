@@ -9,6 +9,7 @@
         <result property="title" column="title" jdbcType="VARCHAR"/>
         <result property="content" column="content" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
@@ -75,8 +76,8 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into brace.article(type, img, title, content, status)
-        values (#{type}, #{img}, #{title}, #{content}, #{status})
+        insert into brace.article(type, img, title, content, status,create_time)
+        values (#{type}, #{img}, #{title}, #{content}, #{status},now())
     </insert>
 
     <!--通过主键修改数据-->
