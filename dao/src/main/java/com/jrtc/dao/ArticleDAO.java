@@ -32,7 +32,7 @@ public interface ArticleDAO {
      * 查询指定行数据
      * @return 对象列表
      */
-    IPage<ArticleBO> queryAllByTitle(Page<ArticleBO> page, @Param("title")String title,@Param("type")String type);
+    IPage<ArticleBO> queryAllByTitle(Page<ArticleBO> page, @Param("title")String title,@Param("type")String type,@Param("name")String name);
 
     /**
      * 通过实体作为筛选条件查询

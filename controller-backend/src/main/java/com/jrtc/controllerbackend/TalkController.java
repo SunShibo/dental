@@ -27,8 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/talk")
-public class talkController extends BaseController {
-    static final Logger log = LoggerFactory.getLogger(talkController.class);
+public class TalkController extends BaseController {
+    static final Logger log = LoggerFactory.getLogger(TalkController.class);
 
     @Autowired
     private TalkService talkService;

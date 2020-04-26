@@ -52,7 +52,7 @@ public class TalkService {
      *
      * @return 对象列表
      */
-    public IPage<TalkBO> queryAllByLimit(Long userId, PageUtil pageUtil) {
+    public IPage<TalkBO> queryAllByLimit( Long userId, PageUtil pageUtil) {
         Page<TalkBO> page = new Page<TalkBO>(pageUtil.getPageNo(), pageUtil.getPageSize());  // 查询第1页，每页返回5条
         IPage<TalkBO> iPage = talkDao.queryAllByLimit(page);
         List<TalkBO> records = iPage.getRecords();

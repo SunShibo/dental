@@ -39,9 +39,9 @@ public class ArticleService {
      *
      * @return 对象列表
      */
-    public IPage<ArticleBO> queryAllByTitle(PageUtil pageUtil, String title,String type) {
+    public IPage<ArticleBO> queryAllByTitle(PageUtil pageUtil, String title,String type,String name) {
         Page<ArticleBO> page = new Page<ArticleBO>(pageUtil.getPageNo(), pageUtil.getPageSize());  // 查询第1页，每页返回5条
-        IPage<ArticleBO> iPage = articleDao.queryAllByTitle(page, title,type);
+        IPage<ArticleBO> iPage = articleDao.queryAllByTitle(page, title,type, name);
         return iPage;
 
     }

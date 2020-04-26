@@ -1,6 +1,7 @@
 package com.jrtc.controllerapi;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.jrtc.base.config.constants.Constants;
 import com.jrtc.base.entity.bo.ArticleBO;
 import com.jrtc.base.entity.bo.ArticleCommentBO;
 import com.jrtc.base.entity.bo.UserBO;
@@ -40,14 +41,14 @@ public class ArticleController extends BaseController {
      */
     @RequestMapping(value = "/queryArtic", method = RequestMethod.POST)
     public ResultDTO updArtic(HttpServletRequest request, HttpServletResponse response, PageUtil pageUtil,String type) {
-        IPage<ArticleBO> admins = articleService.queryAllByTitle(pageUtil, null,type);
+        IPage<ArticleBO> admins = articleService.queryAllByTitle(pageUtil, null,type,null);
         return ResultDTOBuilder.success(admins);
     }
 
 
 
     /**
-     * 查询文章或案例列表
+     * 查询文章或案例
      * @param request
      * @param response
      * @return
@@ -92,6 +93,8 @@ public class ArticleController extends BaseController {
         UserBO loginUser = super.getLoginUser(request);
         articleCommentBO.setUserId(loginUser.getId());
         articleCommentBO.setCreateTime(new Date());
+        articleCommentBO.setStatus(Constants.YES.getValue());
+        articleCommentBO.setPId(0L);
         articleCommentService.insert(articleCommentBO);
         return ResultDTOBuilder.success();
     }

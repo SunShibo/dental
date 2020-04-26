@@ -10,12 +10,14 @@
         <result property="content" column="content" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="digest" column="digest" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="ArticleMap">
         select
-          id, type, img, title, content, status
+          id, type, img, title, content, status , create_time,`name`,digest
         from brace.article
         where id = #{id}
     </select>
@@ -23,7 +25,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="ArticleMap">
         select
-          id, type, img, title, content, status
+          id, type, img, title, content, status , create_time, `name` ,digest
         from brace.article
         limit #{offset}, #{limit}
     </select>
@@ -41,6 +43,9 @@
             <if test="type!=null and type!=''" >
              and   type =#{type}
             </if>
+            <if test="name!=null and name!=''">
+             and   `name` = #{name}
+            </if>
         </where>
 
         order by create_time DESC
@@ -50,7 +55,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="ArticleMap">
         select
-          id, type, img, title, content, status
+          id, type, img, title, content, status , create_time,  `name` ,digest
         from brace.article
         <where>
             <if test="id != null">
@@ -71,13 +76,19 @@
             <if test="status != null and status != ''">
                 and status = #{status}
             </if>
+            <if test="name != null and name != ''">
+               and `name` = #{name}
+            </if>
+            <if test="digest != null and digest != ''">
+                and `digest` = #{digest}
+            </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into brace.article(type, img, title, content, status,create_time)
-        values (#{type}, #{img}, #{title}, #{content}, #{status},now())
+        insert into brace.article(type, img, title, content, status,create_time,`name`,digest)
+        values (#{type}, #{img}, #{title}, #{content}, #{status},now(),#{name},#{digest})
     </insert>
 
     <!--通过主键修改数据-->
@@ -98,6 +109,12 @@
             </if>
             <if test="status != null and status != ''">
                 status = #{status},
+            </if>
+            <if test="name != null and name != ''">
+                `name` = #{name},
+            </if>
+            <if test="name != null and name != ''">
+                `digest` = #{digest},
             </if>
         </set>
         where id = #{id}

@@ -34,7 +34,7 @@ public class ArticleCommentController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/delArticMent", method = RequestMethod.POST)
-    public ResultDTO updArtic(HttpServletRequest request, HttpServletResponse response, Long id) {
+    public ResultDTO delArticMent(HttpServletRequest request, HttpServletResponse response, Long id) {
         //验证参数
         if (id == null) {
             return ResultDTOBuilder.failure("00001");
@@ -51,7 +51,7 @@ public class ArticleCommentController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/queryArticMent", method = RequestMethod.POST)
-    public ResultDTO updArtic(HttpServletRequest request, HttpServletResponse response, PageUtil pageUtil,Long id) {
+    public ResultDTO queryArticMent(HttpServletRequest request, HttpServletResponse response, PageUtil pageUtil,Long id) {
         if(!verifyParam(id)){
             return ResultDTOBuilder.failure("00001");
         }

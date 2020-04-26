@@ -28,8 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/talk")
-public class talkController extends BaseController {
-    static final Logger log = LoggerFactory.getLogger(talkController.class);
+public class TalkController extends BaseController {
+    static final Logger log = LoggerFactory.getLogger(TalkController.class);
 
     @Autowired
     private TalkService talkService;
@@ -102,7 +102,7 @@ public class talkController extends BaseController {
     @RequestMapping(value = "/queryTalk", method = RequestMethod.POST)
     public ResultDTO queryTalk(HttpServletResponse response, HttpServletRequest request, PageUtil pageUtil) {
         UserBO loginUser = super.getLoginUser(request);
-        IPage<TalkBO> talkBOIPage = talkService.queryAllByLimit(loginUser.getId(), pageUtil);
+        IPage<TalkBO> talkBOIPage = talkService.queryAllByLimit(loginUser==null?null:loginUser.getId(), pageUtil);
         return ResultDTOBuilder.success(talkBOIPage);
     }
 

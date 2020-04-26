@@ -38,6 +38,11 @@ public class ArticleBO implements Serializable {
 
     private Date createTime;
 
+    private String name;
+
+    private String digest;
+
+
     public Long getId() {
         return id;
     }
@@ -92,5 +97,21 @@ public class ArticleBO implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDigest() {
+        return digest;
+    }
+
+    public void setDigest(String digest) {
+        this.digest = digest;
     }
 }

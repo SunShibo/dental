@@ -102,6 +102,10 @@ public class UserController extends BaseController {
         return ResultDTOBuilder.success(userBO);
     }
 
+    public static void main(String[] args) {
+        String s = SecureUtil.md5("15214440324.");
+        System.out.println(s);
+    }
 
     /**
      * 注册

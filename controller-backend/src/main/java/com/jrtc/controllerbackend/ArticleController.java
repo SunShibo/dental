@@ -37,7 +37,7 @@ public class ArticleController extends BaseController {
     @RequestMapping(value = "/addArtic", method = RequestMethod.POST)
     public ResultDTO addArtic(HttpServletRequest request, HttpServletResponse response, ArticleBO articleBO) {
         //验证参数
-        if (!verifyParam(articleBO.getImg(), articleBO.getType(), articleBO.getContent(), articleBO.getTitle())) {
+        if (!verifyParam(articleBO.getImg(), articleBO.getType(), articleBO.getContent(), articleBO.getTitle(),articleBO.getName())) {
             return ResultDTOBuilder.failure("00001");
         }
         articleService.insert(articleBO);
@@ -88,9 +88,8 @@ public class ArticleController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/queryArtic", method = RequestMethod.POST)
-    public ResultDTO updArtic(HttpServletRequest request, HttpServletResponse response, PageUtil pageUtil, String title,String type) {
-        IPage<ArticleBO> articles = articleService.queryAllByTitle(pageUtil, title,type);
-        List<ArticleBO> records = articles.getRecords();
+    public ResultDTO updArtic(HttpServletRequest request, HttpServletResponse response, PageUtil pageUtil, String title,String type,String name) {
+        IPage<ArticleBO> articles = articleService.queryAllByTitle(pageUtil, title,type,name);
         return ResultDTOBuilder.success(articles);
     }
 

@@ -18,7 +18,8 @@ import java.util.Set;
 public class LogCostInterceptor  implements HandlerInterceptor {
     static final Logger log = LoggerFactory.getLogger(HandlerInterceptor.class);
     public static final Set<String> unCheckList = SetUtil.newSet("/user/login","/user/register","/user/reset","/error","/artic/queryArticById","/artic/queryArtic",
-            "/articMent/addArticMent","/articMent/queryArticMent","/banner/queryBan","/talk/queryReply","/talk/queryTalkCmt","/talk/queryTalk","/talk/queryTalkById") ;
+            "/articMent/addArticMent","/articMent/queryArticMent","/banner/queryBan","/talk/queryReply","/talk/queryTalkCmt","/talk/queryTalk","/talk/queryTalkById",
+            "/user/send","/artic/queryArticMent") ;
 
     @Autowired
     BaseController baseController;
