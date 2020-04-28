@@ -153,7 +153,7 @@ public class UserService  {
                 log.info("braceMsgBO："+braceMsgBO);
                 if(braceMsgBO!=null){
                     log.info("braceMsgBO：!=null)");
-                    patient.setStage(braceMsgBO.getStage()+braceMsgBO.getName());
+                    patient.setStage(braceMsgBO.getName());
                     log.info("braceMsgBO.getStage()+braceMsgBO.getName()"+braceMsgBO.getStage()+braceMsgBO.getName());
                 }
 
@@ -169,4 +169,6 @@ public class UserService  {
     public int queryUserByPhone(String phone) {
         return userDao.queryUserByPhone(phone);
     }
+
+
 }

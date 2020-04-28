@@ -4,6 +4,7 @@ import com.jrtc.base.entity.bo.BraceMsgBO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -38,10 +39,9 @@ public interface BraceMsgDAO {
     /**
      * 通过实体作为筛选条件查询
      *
-     * @param braceMsg 实例对象
      * @return 对象列表
      */
-    List<BraceMsgBO> queryAll(BraceMsgBO braceMsg);
+    List<BraceMsgBO> queryAll(@Param("userId")Long userId);
 
     /**
      * 新增数据
@@ -70,4 +70,29 @@ public interface BraceMsgDAO {
     BraceMsgBO queryNext(@Param("date")String date,@Param("userId")Long userId);
 
     BraceMsgBO queryThis(@Param("date")String date,@Param("userId")Long userId);
+
+    /**
+     * 以制作数量
+     * @param userId
+     * @return
+     */
+    int first(@Param("userId")Long userId);
+
+    /**
+     * 大于当前时间 确认制作数量
+     * @param date
+     * @param userId
+     * @return
+     */
+    int showNext(@Param("date")String date,@Param("userId") Long userId,@Param("status")String status);
+
+
+    List<Long> queryMake(@Param("userId") Long userId);
+
+
+    void updaMake(@Param("ids")List<Long> ids);
+    /**
+     * 开始时间是否在已确认中间
+     */
+    int queryCont(@Param("userId")Long userId, @Param("startTime")Date startTime) ;
 }

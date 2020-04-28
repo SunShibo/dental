@@ -10,6 +10,7 @@ import java.util.Date;
  * @since 2020-03-30 18:55:16
  */
 public class BraceMsgBO implements Serializable {
+
     private static final long serialVersionUID = 455923978351282002L;
     /**
     * 方案详情
@@ -40,6 +41,13 @@ public class BraceMsgBO implements Serializable {
 
     private String stage;
 
+    private Long userId;//用户id
+
+    private Date createTime;
+
+    private Date updateTime;
+
+    private Date affirmTime;
     public Long getId() {
         return id;
     }
@@ -114,5 +122,37 @@ public class BraceMsgBO implements Serializable {
 
     public void setStage(String stage) {
         this.stage = stage;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Date getAffirmTime() {
+        return affirmTime;
+    }
+
+    public void setAffirmTime(Date affirmTime) {
+        this.affirmTime = affirmTime;
     }
 }

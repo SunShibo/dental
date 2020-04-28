@@ -234,6 +234,7 @@ public class UserController extends BaseController {
     }
 
 
+
     /**
      * 查询用户信息
      *
@@ -248,6 +249,24 @@ public class UserController extends BaseController {
         UserBO userBO = userService.queryById(user.getId());
         return ResultDTOBuilder.success(userBO);
     }
+
+    /**
+     * 退出登录
+     *
+     * @param response
+     * @param request
+     * @throws Exception
+     * @return
+     */
+    @RequestMapping(value = "/outLogin" ,method = RequestMethod.POST)
+    public ResultDTO outLogin(HttpServletResponse response, HttpServletRequest request) throws Exception {
+        try {
+            super.delLoginUser(request,response);
+        }catch (Exception e){
+        }
+        return ResultDTOBuilder.success();
+    }
+
 
 
 

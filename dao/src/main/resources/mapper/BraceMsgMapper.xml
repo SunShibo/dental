@@ -10,13 +10,17 @@
         <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
         <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
         <result property="status" column="status" jdbcType="VARCHAR"/>
-        <result property="stage" column="stage" jdbcType="VARCHAR"/>
+        <result property="stage" column="name" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" />
+        <result property="createTime" column="create_time" />
+        <result property="updateTime" column="update_time" />
+        <result property="affirmTime" column="affirm_time" />
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="BraceMsgMap">
         select
-          id, b_id, name, num, start_time, end_time ,status
+          *
         from brace.brace_msg
         where id = #{id}
     </select>
@@ -24,45 +28,25 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="BraceMsgMap">
         select
-          id, b_id, name, num, start_time, end_time ,status
-        from brace.brace_msg
-        limit #{offset}, #{limit}
+         *
+           from brace.brace_msg
+         where
+         user_id =#{userId}
     </select>
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="BraceMsgMap">
         select
-          id, b_id, name, num, start_time, end_time , status
+        *
         from brace.brace_msg
-        <where>
-            <if test="id != null">
-                and id = #{id}
-            </if>
-            <if test="bId != null">
-                and b_id = #{bId}
-            </if>
-            <if test="name != null and name != ''">
-                and name = #{name}
-            </if>
-            <if test="num != null">
-                and num = #{num}
-            </if>
-            <if test="startTime != null">
-                and start_time = #{startTime}
-            </if>
-            <if test="endTime != null">
-                and end_time = #{endTime}
-            </if>
-            <if test="status != null and status!=''">
-                and status = #{status}
-            </if>
-        </where>
+        where user_id = #{userId}
+
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into brace.brace_msg(b_id, name, num, start_time, end_time,status)
-        values (#{bId}, #{name}, #{num}, #{startTime}, #{endTime},#{status})
+        insert into brace.brace_msg(b_id, name, num, start_time, end_time,status,user_id,create_time,update_time,affirm_time)
+        values (#{bId}, #{name}, #{num}, #{startTime}, #{endTime},#{status},#{userId},#{createTime},#{updateTime},#{affirmTime})
     </insert>
 
     <!--通过主键修改数据-->
@@ -85,7 +69,16 @@
                 end_time = #{endTime},
             </if>
             <if test="status != null and status!=''">
-                 status = #{status} ,
+                status = #{status} ,
+            </if>
+            <if test="createTime != null">
+                create_time =#{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time =#{updateTime},
+            </if>
+            <if test="affirmTime != null">
+                affirm_time =#{affirmTime},
             </if>
         </set>
         where id = #{id}
@@ -97,13 +90,39 @@
     </delete>
 
     <!--下一幅-->
-    <select id="queryNext" resultMap="BraceMsgMap" >
-       SELECT m.* FROM brace b LEFT JOIN `brace_msg` m on m.b_id=b.id  where   start_time > #{date}  AND b.user_id=#{userId} and m.status='yes' and b.status='yes' ORDER BY start_time ASC LIMIT 0 , 1
+    <select id="queryNext" resultMap="BraceMsgMap">
+       SELECT * FROM  `brace_msg`  where   start_time > #{date}  AND user_id=#{userId}  ORDER BY start_time ASC LIMIT 0 , 1
     </select>
 
     <!--当前这一副-->
-    <select id="queryThis"  resultMap="BraceMsgMap" >
-        SELECT b.stage,m.* FROM brace b LEFT JOIN `brace_msg` m on m.b_id=b.id   where  #{date}>=start_time and #{date}&lt;= end_time  and m.status='yes' and b.status='yes'  ORDER BY start_time ASC LIMIT 0 , 1
+    <select id="queryThis" resultMap="BraceMsgMap">
+        SELECT * FROM `brace_msg`  where  #{date}>=start_time and #{date}&lt;= end_time  AND user_id=#{userId}   ORDER BY start_time ASC LIMIT 0 , 1
     </select>
 
+    <!--以制作数量-->
+    <select id="first" resultType="int">
+           SELECT count(id) FROM  `brace_msg`  where   user_id=#{userId}
+    </select>
+
+    <!--大于当前时间确认制作数量-->
+    <select id="showNext" resultType="int">
+       SELECT count(id) FROM  `brace_msg`  where   start_time > #{date}  AND user_id=#{userId} and  status=#{status}
+    </select>
+
+    <select id="queryMake" resultType="long">
+        SELECT id FROM  brace_msg WHERE user_id=#{userId}  and status='no' ORDER BY start_time ASC LIMIT 0 , 10
+    </select>
+
+    <!--确认制作-->
+    <select id="updaMake" >
+        update brace_msg set  status='yes' , affirm_time=NOW() where
+        <foreach collection="ids" item="id" open="id in(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!--是否是以确认中间的-->
+    <select id="queryCont" resultType="int" >
+        SELECT count(id) FROM `brace_msg` WHERE  start_time >#{startTime}  AND `status` = 'yes' and  user_id=#{userId}
+    </select>
 </mapper>

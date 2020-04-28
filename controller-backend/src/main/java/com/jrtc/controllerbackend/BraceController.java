@@ -1,11 +1,10 @@
 package com.jrtc.controllerbackend;
 
-import com.jrtc.base.config.constants.Constants;
-import com.jrtc.base.entity.bo.BraceBO;
+import com.jrtc.base.entity.bo.BraceMsgBO;
 import com.jrtc.base.entity.dto.ResultDTO;
 import com.jrtc.base.entity.dto.ResultDTOBuilder;
 import com.jrtc.controllerbackend.base.BaseController;
-import com.jrtc.service.BraceService;
+import com.jrtc.service.BraceMsgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +21,7 @@ import java.util.List;
 @RequestMapping("/brace")
 public class BraceController extends BaseController {
     @Autowired
-    private BraceService braceService;
+    private BraceMsgService braceService;
 
 
     /**
@@ -38,30 +37,25 @@ public class BraceController extends BaseController {
             return ResultDTOBuilder.failure("00001");
         }
 
-        List<BraceBO> braceBOS = braceService.queryAll(userId);
-        return ResultDTOBuilder.success(braceBOS);
+        List<BraceMsgBO> braceMsgBOS = braceService.queryAll(userId);
+        return ResultDTOBuilder.success(braceMsgBOS);
     }
 
 
-
     /**
-     * 确认制作
+     * 修改
      *
      * @param request
      * @param response
      * @return
      */
-    @RequestMapping(value = "/updaMake", method = RequestMethod.POST)
-    public ResultDTO updaMake(HttpServletRequest request, HttpServletResponse response,Long id) {
-        if(id==null){
+    @RequestMapping(value = "/updBrace", method = RequestMethod.POST)
+    public ResultDTO update(HttpServletRequest request, HttpServletResponse response,BraceMsgBO braceMsgBO) {
+        if(braceMsgBO.getId()==null){
             return ResultDTOBuilder.failure("00001");
         }
-        BraceBO braceBO = braceService.queryById(id);
-        if(braceBO!=null){
-            braceBO.setMake(Constants.YES.getValue());
-            braceService.update(braceBO);
-        }
-        return ResultDTOBuilder.success();
+        BraceMsgBO braceBO = braceService.update(braceMsgBO);
+        return ResultDTOBuilder.success(braceBO);
     }
 
 

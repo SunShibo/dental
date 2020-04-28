@@ -18,7 +18,7 @@ public class DateUtil {
     }
 
     public static void main(String[] args){
-        Date endTime = getEndTime(new Date(), 10);
+        Date endTime = getEndTime(new Date(), 2);
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.println(simpleDateFormat.format(endTime));
     }

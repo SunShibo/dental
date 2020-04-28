@@ -1,6 +1,7 @@
 package com.jrtc.controllerbackend;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.jrtc.base.config.constants.Constants;
 import com.jrtc.base.entity.bo.InformBO;
 import com.jrtc.base.entity.dto.ResultDTO;
 import com.jrtc.base.entity.dto.ResultDTOBuilder;
@@ -79,5 +80,39 @@ public class InformController extends BaseController {
     }
 
 
+    /**
+     * 新未读通知
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/newInform", method = RequestMethod.POST)
+    public ResultDTO newInform(HttpServletRequest request, HttpServletResponse response) {
+        int count = informService.newInform(-1l);
+        return ResultDTOBuilder.success(count);
+    }
+
+    /**
+     * 已读通知
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/updInform", method = RequestMethod.POST)
+    public ResultDTO updInform(HttpServletRequest request, HttpServletResponse response,Long id) {
+        //验证参数
+        if (id==null) {
+            return ResultDTOBuilder.failure("00001");
+        }
+        InformBO informBO = informService.queryById(id);
+        if(informBO!=null){
+            informBO.setStatus(Constants.YES.getValue());
+            informService.update(informBO);
+        }
+
+        return ResultDTOBuilder.success();
+    }
 
 }
