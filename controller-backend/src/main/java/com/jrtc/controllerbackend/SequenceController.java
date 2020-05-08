@@ -27,6 +27,7 @@ public class SequenceController extends BaseController {
         if(loginUser==null){
             return ResultDTOBuilder.failure("00002");
         }
+
         Map<String, String> stsMessage = StsUtil.getStsOss(loginUser.getId()+"AdminOss");
         return ResultDTOBuilder.success(stsMessage);
     }
