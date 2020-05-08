@@ -69,6 +69,22 @@ public class BraceController extends BaseController {
 
 
     /**
+     * 确认方案
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/updBraceMsg", method = RequestMethod.POST)
+    public ResultDTO updBraceMsg(HttpServletRequest request, HttpServletResponse response, BraceMsgBO braceBO) {
+        if (!verifyParam(braceBO.getId(), braceBO.getStartTime(), braceBO.getNum(), braceBO.getName())) {
+            return ResultDTOBuilder.failure("00001");
+        }
+        braceMsgService.updateBrace(braceBO);
+        return ResultDTOBuilder.success();
+    }
+
+    /**
      * 删除一副
      *
      * @param request

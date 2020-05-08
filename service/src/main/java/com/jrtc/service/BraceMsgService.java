@@ -167,4 +167,14 @@ public class BraceMsgService  {
     public int queryCont(Long userId,Date startTime){
         return braceMsgDao.queryCont(userId,startTime);
     }
+
+    /**
+     * 修改数据
+     * @param brace 实例对象
+     * @return 实例对象
+     */
+    public void updateBrace(BraceMsgBO brace) {
+        brace.setUpdateTime(new Date());
+        braceMsgDao.update(brace);
+    }
 }
