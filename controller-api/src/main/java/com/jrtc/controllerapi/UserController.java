@@ -143,7 +143,9 @@ public class UserController extends BaseController {
 
         UserBO newUser = new UserBO();
         //设置默认昵称
-        newUser.setName("用户_" + phone);
+        String str1=phone.substring(0,3);
+        String str2=phone.substring(7,11);
+        newUser.setName("用户_" + str1+"****"+str2);
         newUser.setPhone(phone);
         newUser.setPassword(SecureUtil.md5(password));
         newUser.setCreateTime(new Date());
