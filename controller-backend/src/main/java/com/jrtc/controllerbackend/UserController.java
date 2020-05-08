@@ -1,6 +1,7 @@
 package com.jrtc.controllerbackend;
 
 
+import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jrtc.base.config.constants.Constants;
 import com.jrtc.base.entity.bo.DoctorBO;
@@ -69,6 +70,7 @@ public class UserController extends BaseController {
     public ResultDTO addDoctor(HttpServletResponse response, HttpServletRequest request, UserBO userParam) {
         userParam.setDoctor(Constants.YES.getValue());
         userParam.setCreateTime(new Date());
+        userParam.setPassword(SecureUtil.md5(userParam.getPassword()));
         userService.insert(userParam);
         return ResultDTOBuilder.success();
     }

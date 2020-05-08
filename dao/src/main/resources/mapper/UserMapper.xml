@@ -157,6 +157,9 @@
             <if test="doctor!=null and doctor!=''">
                 doctor=#{doctor} ,
             </if>
+            <if test="braceStatus!=null and braceStatus!=''">
+                brace_status=#{braceStatus} ,
+            </if>
         </set>
         where id = #{id}
     </update>

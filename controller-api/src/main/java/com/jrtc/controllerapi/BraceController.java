@@ -8,6 +8,7 @@ import com.jrtc.base.entity.dto.ResultDTOBuilder;
 import com.jrtc.base.util.DateUtil;
 import com.jrtc.controllerapi.base.BaseController;
 import com.jrtc.service.BraceMsgService;
+import com.jrtc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,6 +30,8 @@ public class BraceController extends BaseController {
     @Autowired
     private BraceMsgService braceMsgService;
 
+    @Autowired
+    UserService userService;
 
     /**
      * 初始化添加
@@ -76,11 +79,12 @@ public class BraceController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/updBraceMsg", method = RequestMethod.POST)
-    public ResultDTO updBraceMsg(HttpServletRequest request, HttpServletResponse response, BraceMsgBO braceBO) {
-        if (!verifyParam(braceBO.getId(), braceBO.getStartTime(), braceBO.getNum(), braceBO.getName())) {
+    public ResultDTO updBraceMsg(HttpServletRequest request, HttpServletResponse response, UserBO userBO) {
+        if (!verifyParam(userBO.getId(),userBO.getBraceStatus())) {
             return ResultDTOBuilder.failure("00001");
         }
-        braceMsgService.updateBrace(braceBO);
+
+        userService.updateBrace(userBO);
         return ResultDTOBuilder.success();
     }
 

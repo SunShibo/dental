@@ -1,5 +1,7 @@
 package com.jrtc.base.entity.bo;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 import java.io.Serializable;
 
@@ -35,6 +37,7 @@ public class UserBO implements Serializable {
     /**
     * 生日
     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
     /**
     * 机构
@@ -78,6 +81,16 @@ public class UserBO implements Serializable {
      */
     private String doctor;
 
+    //方案确定状态
+    private String braceStatus;
+
+    public String getBraceStatus() {
+        return braceStatus;
+    }
+
+    public void setBraceStatus(String braceStatus) {
+        this.braceStatus = braceStatus;
+    }
 
     public String getDoctor() {
         return doctor;

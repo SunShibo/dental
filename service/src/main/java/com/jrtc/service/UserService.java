@@ -89,6 +89,17 @@ public class UserService  {
         return this.queryById(user.getId());
     }
 
+
+    /**
+     * 修改方案确认状态
+     *
+     * @param user 实例对象
+     * @return 实例对象
+     */
+    public void updateBrace(UserBO user) {
+        userDao.update(user);
+    }
+
     /**
      * 通过主键删除数据
      *
