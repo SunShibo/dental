@@ -19,7 +19,7 @@ public class RestExceptionHandler{
     static final Logger log = LoggerFactory.getLogger(RestExceptionHandler.class);
     /**
      * 返回json
-     *
+     *queryDynamic
      * @param e
      * @return
      */

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jrtc.base.config.constants.Constants;
 import com.jrtc.base.entity.bo.TalkBO;
+import com.jrtc.base.entity.bo.TalkCommentBO;
 import com.jrtc.base.entity.bo.TalkImgBO;
 import com.jrtc.base.entity.bo.UserBO;
 import com.jrtc.base.util.JsonUtils;
@@ -14,9 +15,9 @@ import com.jrtc.dao.TalkImgDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 
 
 /**
@@ -37,6 +38,9 @@ public class TalkService {
     @Autowired
     private TalkLikeService talkLikeService;
 
+    @Autowired
+    private TalkCommentService talkCommentService;
+
     /**
      * 通过ID查询单条数据
      *
@@ -52,13 +56,21 @@ public class TalkService {
      *
      * @return 对象列表
      */
-    public IPage<TalkBO> queryAllByLimit( Long userId, PageUtil pageUtil) {
+    public IPage<TalkBO> queryAllByLimit(Long userId, PageUtil pageUtil) {
         Page<TalkBO> page = new Page<TalkBO>(pageUtil.getPageNo(), pageUtil.getPageSize());  // 查询第1页，每页返回5条
         IPage<TalkBO> iPage = talkDao.queryAllByLimit(page);
         List<TalkBO> records = iPage.getRecords();
-        if(userId!=null) {
-            if (records != null && records.size() > 0) {
-                for (TalkBO talkBO : records) {
+
+
+        if (records != null && records.size() > 0) {
+            for (TalkBO talkBO : records) {
+                //添加评论
+                System.out.println(talkBO.getId());
+                IPage<TalkCommentBO> comments = talkCommentService.queryAllByLimit(pageUtil, talkBO.getId());
+                System.out.println(comments);
+                talkBO.setTalkCommentBOList(comments);
+
+                if (userId != null) {
                     if (talkLikeService.queryIsLike(talkBO.getId(), userId)) {
                         talkBO.setLike(Constants.YES.getValue());
                     }
@@ -74,8 +86,8 @@ public class TalkService {
      *
      * @return 实例对象
      */
-    public TalkBO insert(UserBO userBO,String content,String imgJsonStr) {
-        TalkBO talk=new TalkBO();
+    public TalkBO insert(UserBO userBO, String content, String imgJsonStr) {
+        TalkBO talk = new TalkBO();
         talk.setContent(content);
         talk.setUserId(userBO.getId());
         talk.setUserName(userBO.getName());
@@ -83,9 +95,9 @@ public class TalkService {
         talk.setCreateTime(new Date());
         talk.setStatus(Constants.YES.getValue());
         talkDao.insert(talk);
-        if(!StringUtils.isEmpty(imgJsonStr)){
+        if (!StringUtils.isEmpty(imgJsonStr)) {
             String[] stringArray4Json = JsonUtils.getStringArray4Json(imgJsonStr);
-            for(String str:stringArray4Json){
+            for (String str : stringArray4Json) {
                 TalkImgBO talkBO = new TalkImgBO();
                 talkBO.setImg(str);
                 talkBO.setTId(talk.getId());

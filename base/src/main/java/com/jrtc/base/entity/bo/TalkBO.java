@@ -1,5 +1,7 @@
 package com.jrtc.base.entity.bo;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +41,19 @@ public class TalkBO implements Serializable {
 
     private List<TalkImgBO> imgs;
 
+    private IPage<TalkCommentBO> TalkCommentBOList;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public IPage<TalkCommentBO> getTalkCommentBOList() {
+        return TalkCommentBOList;
+    }
+
+    public void setTalkCommentBOList(IPage<TalkCommentBO> talkCommentBOList) {
+        TalkCommentBOList = talkCommentBOList;
+    }
 
     public Long getId() {
         return id;
