@@ -127,10 +127,10 @@
         from sys_admin ,sys_role
         where role_id=sys_role.id
         <if test="map.userId!=null and map.userId!=''">
-            and sys_admin.id=#{userId}
+            and sys_admin.id=#{map.userId}
         </if>
         <if test="map.roleId!=null and map.roleId!=''">
-            and role_id=#{roleId}
+            and role_id=#{map.roleId}
         </if>
         <if test="map.userName!=null and map.userName!=''">
             and name like '%${map.userName}%'

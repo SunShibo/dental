@@ -54,7 +54,7 @@ public class BraceController extends BaseController {
         if(braceMsgBO.getId()==null){
             return ResultDTOBuilder.failure("00001");
         }
-        BraceMsgBO braceBO = braceService.update(braceMsgBO);
+        BraceMsgBO braceBO = braceService.update(braceMsgBO,braceMsgBO.getUserId());
         return ResultDTOBuilder.success(braceBO);
     }
 

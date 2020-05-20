@@ -97,4 +97,8 @@ public interface BraceMsgDAO {
      * 开始时间是否在已确认中间
      */
     int queryCont(@Param("userId")Long userId, @Param("startTime")Date startTime) ;
+
+
+
+    List<BraceMsgBO> queryBrace(@Param("userId") Long userId,@Param("id") Long id);
 }

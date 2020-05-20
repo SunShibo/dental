@@ -25,15 +25,16 @@ public class LogCostInterceptor  implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-        String requestURI = httpServletRequest.getRequestURI();
-        if(unCheckList.contains(requestURI)){
+      String requestURI = httpServletRequest.getRequestURI();
+        System.out.println(requestURI);
+        /*  if(unCheckList.contains(requestURI)){
             return true;
         }
         AdminBO loginAdmin = baseController.getLoginAdmin(httpServletRequest);
         if(loginAdmin==null){
             baseController.responsePrint(httpServletResponse, JsonUtils.getJsonString4JavaPOJO( ResultDTOBuilder.failure("00002")));
             return false;
-        }
+        }*/
         return true;
     }
 

@@ -66,7 +66,9 @@ public class BraceController extends BaseController {
         if (!verifyParam(braceBO.getId(), braceBO.getStartTime(), braceBO.getNum(), braceBO.getName())) {
             return ResultDTOBuilder.failure("00001");
         }
-        braceMsgService.update(braceBO);
+
+        UserBO loginUser = super.getLoginUser(request);
+        braceMsgService.update(braceBO,loginUser.getId());
         return ResultDTOBuilder.success();
     }
 

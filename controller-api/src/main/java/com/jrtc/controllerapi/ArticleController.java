@@ -90,6 +90,7 @@ public class ArticleController extends BaseController {
         if(!verifyParam(articleCommentBO.getContent(),articleCommentBO.getCId())){
             return ResultDTOBuilder.failure("00001");
         }
+
         UserBO loginUser = super.getLoginUser(request);
         articleCommentBO.setUserId(loginUser.getId());
         articleCommentBO.setCreateTime(new Date());

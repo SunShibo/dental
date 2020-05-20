@@ -8,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 @Configuration
 public class InterceptorConfig extends WebMvcConfigurationSupport {
 
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(getAccessInterceptor()).addPathPatterns("/**");

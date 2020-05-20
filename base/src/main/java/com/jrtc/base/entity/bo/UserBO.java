@@ -37,7 +37,7 @@ public class UserBO implements Serializable {
     /**
     * 生日
     */
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
     private Date birthday;
     /**
     * 机构

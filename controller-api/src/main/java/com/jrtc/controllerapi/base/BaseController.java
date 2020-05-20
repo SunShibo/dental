@@ -25,6 +25,7 @@ public class BaseController {
      * 获取登录管理员
      */
     public UserBO getLoginUser(HttpServletRequest request) {
+
         return (UserBO) this.getSession(request, CURRENT_LOGIN_USER);
     }
 

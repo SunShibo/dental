@@ -113,12 +113,36 @@ public class BraceMsgService  {
      * @param brace 实例对象
      * @return 实例对象
      */
-    public BraceMsgBO update(BraceMsgBO brace) {
+    public BraceMsgBO update(BraceMsgBO brace,Long userId) {
+        List<BraceMsgBO> braceMsgBOS = queryBrace(userId, brace.getId());
+        Date startTime=brace.getStartTime();
+
+        brace.setStartTime(startTime);
+        brace.setEndTime(DateUtil.getEndTime(startTime,brace.getNum()-1));
+        brace.setNum(brace.getNum());
         brace.setUpdateTime(new Date());
-        brace.setEndTime(DateUtil.getEndTime(brace.getStartTime(),brace.getNum()-1));
         this.braceMsgDao.update(brace);
+        if(braceMsgBOS!=null && braceMsgBOS.size()>1) {
+            startTime = DateUtil.getEndTime(startTime, brace.getNum());
+            for (int i = 0; i < braceMsgBOS.size(); i++) {
+                if (i != 0)
+                    startTime = DateUtil.getEndTime(startTime, braceMsgBOS.get(i - 1).getNum());
+                braceMsgBOS.get(i).setStartTime(startTime);
+                braceMsgBOS.get(i).setEndTime(DateUtil.getEndTime(startTime, braceMsgBOS.get(i).getNum() - 1));
+                braceMsgBOS.get(i).setNum(braceMsgBOS.get(i).getNum());
+                braceMsgBOS.get(i).setUpdateTime(new Date());
+                this.braceMsgDao.update(braceMsgBOS.get(i));
+            }
+        }
         return this.braceMsgDao.queryById(brace.getId());
     }
+
+
+    List<BraceMsgBO> queryBrace(Long userId,Long id){
+        return     braceMsgDao.queryBrace(userId,id);
+    }
+
+
 
 
     public List<BraceMsgBO> queryAll(Long userId) {
@@ -179,4 +203,6 @@ public class BraceMsgService  {
         brace.setUpdateTime(new Date());
         braceMsgDao.update(brace);
     }
+
+
 }

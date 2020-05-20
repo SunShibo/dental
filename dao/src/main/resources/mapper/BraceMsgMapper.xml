@@ -130,4 +130,10 @@
     <select id="queryCont" resultType="int" >
         SELECT count(id) FROM `brace_msg` WHERE  start_time >#{startTime}  AND `status` = 'yes' and  user_id=#{userId}
     </select>
+
+
+    <select id="queryBrace" resultMap="BraceMsgMap">
+        select * from brace_msg where user_id=#{userId} and  ( id > #{id} )
+    </select>
+
 </mapper>

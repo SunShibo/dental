@@ -150,6 +150,8 @@ public class UserController extends BaseController {
         newUser.setPassword(SecureUtil.md5(password));
         newUser.setCreateTime(new Date());
         newUser.setStatus(Constants.YES.getValue());
+        newUser.setDoctor("no");
+        newUser.setState("underway");
          String values = keyValueService.getValueByKey(Constants.HEAD.getValue()).getValues();
         newUser.setHead(values); //获取默认头像
         userService.insert(newUser);

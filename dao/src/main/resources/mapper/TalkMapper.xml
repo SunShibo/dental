@@ -22,7 +22,7 @@
        select
           c.id, content, create_time, status, user_id, user_name, user_head , m.t_id ,m.img ,m.id as m_id
         from brace.talk c left join talk_img m on c.id=m.t_id
-        where id = #{id}
+        where c.id = #{id}
     </select>
 
     <!--查询指定行数据-->
