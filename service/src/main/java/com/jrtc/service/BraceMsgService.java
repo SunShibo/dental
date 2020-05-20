@@ -84,10 +84,12 @@ public class BraceMsgService  {
         String date = DateUtil.simpDateStr("yyyy-MM-dd",new Date());
         BraceMsgBO nextBrace = braceMsgDao.queryNext(date,userId);
         BraceMsgBO thisBrace = braceMsgDao.queryThis(date,userId);
+        Integer thisBraceNumber=braceMsgDao.queryThisNumber(date,userId);
 
         Map<String,Object> result=new HashMap<>();
         result.put("nextBrace",nextBrace);
         result.put("thisBrace",thisBrace);
+        result.put("thisBraceNumber",thisBraceNumber);
         result.put("first", Constants.NO.getValue());
         int first = braceMsgDao.first(userId);
         int showNext = braceMsgDao.showNext(date,userId,"yes");

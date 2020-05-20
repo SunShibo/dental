@@ -71,6 +71,8 @@ public interface BraceMsgDAO {
 
     BraceMsgBO queryThis(@Param("date")String date,@Param("userId")Long userId);
 
+    Integer queryThisNumber(@Param("date")String date,@Param("userId")Long userId);
+
     /**
      * 以制作数量
      * @param userId
