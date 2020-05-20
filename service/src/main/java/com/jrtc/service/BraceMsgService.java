@@ -7,6 +7,7 @@ import com.jrtc.base.entity.bo.UserBO;
 import com.jrtc.base.util.DateUtil;
 import com.jrtc.dao.BraceMsgDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -81,7 +82,7 @@ public class BraceMsgService  {
      *
      */
     public Map<String,Object> queryCountdown(Long userId){
-        String date = DateUtil.simpDateStr("yyyy-MM-dd",new Date());
+        String date = DateUtil.simpDateStr("yyyy-MM-dd HH:mm:ss",new Date());
         BraceMsgBO nextBrace = braceMsgDao.queryNext(date,userId);
         BraceMsgBO thisBrace = braceMsgDao.queryThis(date,userId);
         Integer thisBraceNumber=braceMsgDao.queryThisNumber(date,userId);

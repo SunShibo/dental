@@ -101,7 +101,9 @@
 
     <!--当前这一副是第几个-->
     <select id="queryThisNumber" resultType="java.lang.Integer">
-        SELECT count(1) FROM `brace_msg`  where  #{date}>=start_time and #{date}&lt;= end_time  AND user_id=#{userId}   ORDER BY start_time ASC
+        SELECT count(1) FROM `brace_msg`
+        where  #{date}>=start_time and #{date}&lt;= end_time
+        AND user_id=#{userId}   ORDER BY start_time ASC
     </select>
 
     <!--以制作数量-->
