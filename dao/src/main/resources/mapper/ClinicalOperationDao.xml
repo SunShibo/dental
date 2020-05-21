@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jrtc.dao.ClinicalOperationDao">
+
+    <resultMap type="com.jrtc.base.entity.bo.ClinicalOperation" id="ClinicalOperationMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="icon" column="icon" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="pic" column="pic" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ClinicalOperationMap">
+        select
+          id, icon, type, content, pic, user_id
+        from brace.clinical_operation
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ClinicalOperationMap">
+        select
+          id, icon, type, content, pic, user_id
+        from brace.clinical_operation
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ClinicalOperationMap">
+        select
+          id, icon, type, content, pic, user_id
+        from brace.clinical_operation
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="icon != null and icon != ''">
+                and icon = #{icon}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="pic != null and pic != ''">
+                and pic = #{pic}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into brace.clinical_operation(icon, type, content, pic, user_id)
+        values (#{icon}, #{type}, #{content}, #{pic}, #{userId})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update brace.clinical_operation
+        <set>
+            <if test="icon != null and icon != ''">
+                icon = #{icon},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="pic != null and pic != ''">
+                pic = #{pic},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from brace.clinical_operation where id = #{id}
+    </delete>
+
+</mapper>
