@@ -31,7 +31,33 @@ public class ConsultBO implements Serializable {
     
     private Long doctorId;
 
+    private Long pid;
+
     private List<ConsultImgBO> imgs;
+
+    private String consultStatus;//是否有新消息
+
+
+    public String getConsultStatus() {
+        return consultStatus;
+    }
+
+    public void setConsultStatus(String consultStatus) {
+        this.consultStatus = consultStatus;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Long getPid() {
+        return pid;
+    }
+
+    public void setPid(Long pid) {
+        this.pid = pid;
+    }
+
     public Long getId() {
         return id;
     }

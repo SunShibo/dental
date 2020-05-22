@@ -27,8 +27,10 @@ public class BaseController {
     public UserBO getLoginUser(HttpServletRequest request) {
 
         return (UserBO) this.getSession(request, CURRENT_LOGIN_USER);
+//        UserBO userBO=new UserBO();
+//        userBO.setId(new Long(66));
+//        return userBO;
     }
-
     /**
      * 把管理员信息存入redis
      */

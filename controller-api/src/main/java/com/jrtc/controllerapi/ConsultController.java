@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 
 @RestController
@@ -46,6 +47,7 @@ public class ConsultController extends BaseController {
         consultService.insert(consultBO, imgJsonStr);
         return ResultDTOBuilder.success();
     }
+
 
 
     /**
@@ -114,13 +116,23 @@ public class ConsultController extends BaseController {
      * 查询记录
      */
     @RequestMapping(value = "/queryConsult", method = RequestMethod.POST)
-    public ResultDTO queryConsult(HttpServletResponse response, HttpServletRequest request, PageUtil pageUtil,Long userId) {
+    public ResultDTO queryConsult(HttpServletResponse response, HttpServletRequest request, PageUtil pageUtil,Long userId,String cation) {
         if (!verifyParam(userId)) {
             return ResultDTOBuilder.failure("00001");
         }
-        IPage<ConsultBO> consultBOIPage = consultService.queryAllByLimit(pageUtil, userId);
+        IPage<ConsultBO> consultBOIPage = consultService.queryAllByLimit(pageUtil, userId,cation);
         return ResultDTOBuilder.success(consultBOIPage);
     }
+
+    @RequestMapping(value = "/getInfo", method = RequestMethod.POST)
+    public ResultDTO getInfo(HttpServletResponse response, HttpServletRequest request, ConsultBO consultBO) {
+        if (!verifyParam(consultBO.getPid())) {
+            return ResultDTOBuilder.failure("00001");
+        }
+        List<ConsultBO> consultBOList = consultService.queryAll(consultBO);
+        return ResultDTOBuilder.success(consultBOList);
+    }
+
 
 
     /**

@@ -29,11 +29,13 @@ public class ClinicalOperationController  extends BaseController {
      * @return
      */
     @RequestMapping(value = "/getClinicalOperation", method = RequestMethod.POST)
-    public ResultDTO getClinicalOperation(HttpServletRequest request, HttpServletResponse response) {
+    public ResultDTO getClinicalOperation(Long userId,HttpServletRequest request, HttpServletResponse response) {
         UserBO userBO=super.getLoginUser(request);
-
+        if(userId==null){
+            userId=userBO.getId();
+        }
         ClinicalOperation clinicalOperation=new ClinicalOperation();
-        clinicalOperation.setUserId(userBO.getId().intValue());
+        clinicalOperation.setUserId(userId.intValue());
 
         List<ClinicalOperation>  ClinicalOperation= clinicalOperationService.queryAll(clinicalOperation);
         return ResultDTOBuilder.success(ClinicalOperation);

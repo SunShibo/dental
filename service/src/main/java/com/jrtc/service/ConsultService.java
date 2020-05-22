@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -47,9 +48,27 @@ public class ConsultService {
      *
      * @return 对象列表
      */
-    public IPage<ConsultBO> queryAllByLimit(PageUtil pageUtil, Long userId) {
+    public IPage<ConsultBO> queryAllByLimit(PageUtil pageUtil, Long userId,String type) {
         Page<ConsultBO> page = new Page<ConsultBO>(pageUtil.getPageNo(), pageUtil.getPageSize());  // 查询第1页，每页返回5条
         IPage<ConsultBO> iPage = consultDao.queryAllByLimit(page, userId);
+
+        List<ConsultBO> consultBOS=iPage.getRecords();
+        for (ConsultBO c :consultBOS) {
+            List<ConsultBO> childIPage = consultDao.queryAllByPid(c.getId());
+            if(childIPage==null){
+                continue;
+            }
+            for (ConsultBO cc :childIPage) {
+                if(type.equals("doctor")&&cc.getCation().equals("user")&&cc.getRead().equals("no")){
+                    c.setConsultStatus("yes");
+                }
+
+                if(type.equals("user")&&cc.getCation().equals("doctor")&&cc.getRead().equals("no")){
+                    c.setConsultStatus("yes");
+                }
+
+            }
+        }
         return iPage;
     }
 
@@ -76,6 +95,22 @@ public class ConsultService {
         return consult;
     }
 
+    public List<ConsultBO> queryAll(ConsultBO consultBO){
+
+        ConsultBO consultBO1=new ConsultBO();
+        consultBO1.setPid(consultBO.getPid());
+        consultBO1.setId(consultBO.getId());
+        consultBO1.setRead("yes");
+        if(consultBO.getCation().equals("user")){
+            //把pid下医生回复的消息都变成以读
+            consultBO1.setCation("doctor");
+        }else {
+            consultBO1.setCation("user");
+        }
+
+        consultDao.updateByPid(consultBO1);
+        return consultDao.queryAll(consultBO.getPid());
+    }
     /**
      * 修改数据
      *

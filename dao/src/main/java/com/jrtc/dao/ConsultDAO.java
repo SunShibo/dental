@@ -30,16 +30,21 @@ public interface ConsultDAO {
      *
      * @return 对象列表
      */
-    IPage<ConsultBO> queryAllByLimit(Page<ConsultBO> page, Long userId);
+    IPage<ConsultBO> queryAllByLimit(Page<ConsultBO> page, @Param("userId") Long userId);
+
+    /**
+     * 详情
+     * @return 对象列表
+     */
+    List<ConsultBO> queryAllByPid( Long pid);
 
 
     /**
      * 通过实体作为筛选条件查询
      *
-     * @param consult 实例对象
      * @return 对象列表
      */
-    List<ConsultBO> queryAll(ConsultBO consult);
+    List<ConsultBO> queryAll(Long pid);
 
     /**
      * 新增数据
@@ -56,6 +61,17 @@ public interface ConsultDAO {
      * @return 影响行数
      */
     int update(ConsultBO consult);
+
+
+    /**
+     * 修改数据
+     *
+     * @param consult 实例对象
+     * @return 影响行数
+     */
+    int updateByPid(ConsultBO consult);
+
+
 
     /**
      * 通过主键删除数据
