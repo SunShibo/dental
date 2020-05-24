@@ -10,6 +10,7 @@ import java.util.List;
  * @author makejava
  * @since 2020-05-20 20:07:22
  */
+@Component
 public interface ClinicalOperationDao {
 
     /**

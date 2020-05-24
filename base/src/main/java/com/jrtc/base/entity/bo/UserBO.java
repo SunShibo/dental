@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * (User)实体类
@@ -83,6 +84,8 @@ public class UserBO implements Serializable {
 
     //方案确定状态
     private String braceStatus;
+
+
 
     public String getBraceStatus() {
         return braceStatus;

@@ -3,13 +3,11 @@ package com.jrtc.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jrtc.base.config.constants.Constants;
-import com.jrtc.base.entity.bo.BraceMsgBO;
-import com.jrtc.base.entity.bo.DoctorBO;
-import com.jrtc.base.entity.bo.PatientBO;
-import com.jrtc.base.entity.bo.UserBO;
+import com.jrtc.base.entity.bo.*;
 import com.jrtc.base.util.DateUtil;
 import com.jrtc.base.util.PageUtil;
 import com.jrtc.dao.BraceMsgDAO;
+import com.jrtc.dao.ClinicalOperationDao;
 import com.jrtc.dao.ConsultDAO;
 import com.jrtc.dao.UserDAO;
 import org.slf4j.Logger;
@@ -37,6 +35,8 @@ public class UserService  {
     private ConsultDAO consultDAO;
     @Autowired
     private BraceMsgDAO braceMsgDao;
+    @Autowired
+    private ClinicalOperationDao clinicalOperationDao;
     /**
      * 通过ID查询单条数据
      *
@@ -144,7 +144,7 @@ public class UserService  {
         log.info("accomplish："+accomplish);
 
         UserBO userBO=new UserBO();
-        userBO.setState(Constants.YES.getValue());
+        userBO.setStatus(Constants.YES.getValue());
         userBO.setDoctorId(doctorId);
         userBO.setState(state);
         log.info("查询："+accomplish);
@@ -168,6 +168,10 @@ public class UserService  {
                     log.info("braceMsgBO.getStage()+braceMsgBO.getName()"+braceMsgBO.getStage()+braceMsgBO.getName());
                 }
 
+                ClinicalOperation clinicalOperation=new ClinicalOperation();
+                clinicalOperation.setUserId(patient.getId().intValue());
+                List<ClinicalOperation> clinicalOperationList =clinicalOperationDao.queryAll(clinicalOperation);
+                patient.setClinicalOperations(clinicalOperationList);
             }
         }
         result.put("underway",underway);

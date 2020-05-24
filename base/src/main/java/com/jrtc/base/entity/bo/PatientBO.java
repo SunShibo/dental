@@ -1,5 +1,7 @@
 package com.jrtc.base.entity.bo;
 
+import java.util.List;
+
 public class PatientBO {
     private Long id;
     private String stage;
@@ -8,6 +10,16 @@ public class PatientBO {
     private String head;
     private String name;
     private String diagnose;
+    //临床操作
+    private List<ClinicalOperation> clinicalOperations;
+
+    public List<ClinicalOperation> getClinicalOperations() {
+        return clinicalOperations;
+    }
+
+    public void setClinicalOperations(List<ClinicalOperation> clinicalOperations) {
+        this.clinicalOperations = clinicalOperations;
+    }
 
 
     public String getStage() {
