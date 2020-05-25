@@ -1,10 +1,12 @@
 package com.jrtc.controllerbackend;
 
 
+import com.jrtc.base.entity.bo.InformBO;
 import com.jrtc.base.entity.bo.SchemeBO;
 import com.jrtc.base.entity.dto.ResultDTO;
 import com.jrtc.base.entity.dto.ResultDTOBuilder;
 import com.jrtc.controllerbackend.base.BaseController;
+import com.jrtc.service.InformService;
 import com.jrtc.service.SchemeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +28,37 @@ public class SchemeController extends BaseController {
 
     @Autowired
     private SchemeService schemeService;
+    @Autowired
+    private InformService informService;
+    /**
+     * 用户确认方案后管理员收到通知
+     *  @param response
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/notice" , method = RequestMethod.POST)
+    public ResultDTO notice(HttpServletResponse response, HttpServletRequest request) {
+        return ResultDTOBuilder.success(informService.queryNewInform());
+    }
 
+    /**
+     * 管理员设置为以读
+     *  @param response
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/confirmationNotice" , method = RequestMethod.POST)
+    public ResultDTO confirmationNotice(HttpServletResponse response, HttpServletRequest request,Long id) {
+        if(!verifyParam(id)){
+            return ResultDTOBuilder.failure("00001");
+        }
+        InformBO informBO=new InformBO();
+        informBO.setId(id);
+        informBO.setStatus("yes");
+        informService.update(informBO);
+
+        return ResultDTOBuilder.success();
+    }
 
     /**
      * 添加方案

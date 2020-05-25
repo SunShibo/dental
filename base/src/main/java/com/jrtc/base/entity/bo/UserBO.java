@@ -14,6 +14,9 @@ import java.util.List;
  */
 public class UserBO implements Serializable {
 
+    private String scheme;
+
+
     private Long id;
     /**
     * 姓名
@@ -103,7 +106,13 @@ public class UserBO implements Serializable {
         this.doctor = doctor;
     }
 
+    public String getScheme() {
+        return scheme;
+    }
 
+    public void setScheme(String scheme) {
+        this.scheme = scheme;
+    }
 
     public String getStatus() {
         return status;

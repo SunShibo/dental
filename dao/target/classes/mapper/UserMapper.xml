@@ -20,6 +20,7 @@
         <result property="head" column="head" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="VARCHAR"/>
         <result property="doctor" column="doctor" jdbcType="VARCHAR"/>
+        <result property="scheme" column="scheme" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
@@ -159,6 +160,9 @@
             </if>
             <if test="braceStatus!=null and braceStatus!=''">
                 brace_status=#{braceStatus} ,
+            </if>
+            <if test="scheme!=null and scheme!=''">
+                scheme=#{scheme} ,
             </if>
         </set>
         where id = #{id}

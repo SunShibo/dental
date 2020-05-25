@@ -18,6 +18,8 @@ import java.util.List;
 @Component
 public interface InformDAO {
 
+    List<InformBO> queryNewInform();
+
     /**
      * 通过ID查询单条数据
      *

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -23,6 +24,15 @@ public class InformService {
 
     @Autowired
     private InformDAO informDao;
+
+
+    /**
+     * 查询未读的信息
+     * @return 实例对象
+     */
+    public List<InformBO> queryNewInform() {
+        return this.informDao.queryNewInform();
+    }
 
     /**
      * 通过ID查询单条数据

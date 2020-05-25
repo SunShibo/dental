@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -44,7 +41,7 @@ public class BraceMsgService  {
      * 查询多条数据
      *
      * @param offset 查询起始位置
-     * @param limit 查询条数
+     * @param limit 查询条queryScheme数
      * @return 对象列表
      */
     public List<BraceMsgBO> queryAllByLimit(int offset, int limit) {
@@ -128,6 +125,19 @@ public class BraceMsgService  {
             for (int i = 0; i < braceMsgBOS.size(); i++) {
                 if (i != 0)
                     startTime = DateUtil.getEndTime(startTime, braceMsgBOS.get(i - 1).getNum());
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(startTime);
+                // 时
+                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                // 分
+                calendar.set(Calendar.MINUTE, 0);
+                // 秒
+                calendar.set(Calendar.SECOND, 0);
+                // 毫秒
+                calendar.set(Calendar.MILLISECOND, 0);
+                startTime=calendar.getTime();
+
                 braceMsgBOS.get(i).setStartTime(startTime);
                 braceMsgBOS.get(i).setEndTime(DateUtil.getEndTime(startTime, braceMsgBOS.get(i).getNum() - 1));
                 braceMsgBOS.get(i).setNum(braceMsgBOS.get(i).getNum());
@@ -183,8 +193,21 @@ public class BraceMsgService  {
             brace.setName("第"+i+"副");
             if(i!=1)
                 startTime=DateUtil.getEndTime(startTime,14);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(startTime);
+            // 时
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            // 分
+            calendar.set(Calendar.MINUTE, 0);
+            // 秒
+            calendar.set(Calendar.SECOND, 0);
+            // 毫秒
+            calendar.set(Calendar.MILLISECOND, 0);
+            startTime=calendar.getTime();
+
             brace.setStartTime(startTime);
-            brace.setEndTime(DateUtil.getEndTime(startTime,13));
+            brace.setEndTime(DateUtil.getEndTime(startTime,14));
             brace.setCreateTime(new Date());
             brace.setNum(14);
             braceMsgDao.insert(brace);

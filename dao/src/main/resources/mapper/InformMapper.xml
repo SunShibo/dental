@@ -26,6 +26,16 @@
         where user_id=#{userId} order by create_time DESC
     </select>
 
+    <!--查询指定行数据-->
+    <select id="queryNewInform" resultMap="InformMap">
+        select
+          *
+        from brace.inform
+        where status='no' order by create_time desc
+    </select>
+
+
+
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="InformMap">
         select
@@ -53,7 +63,7 @@
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
         insert into brace.inform(user_id, create_time, status, content)
-        values (#{userId}, #{createTime}, #{status}, #{content})
+        values (#{userId}, now(), #{status}, #{content})
     </insert>
 
     <!--通过主键修改数据-->

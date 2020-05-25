@@ -27,6 +27,21 @@ public class SchemeController extends BaseController {
     private SchemeService schemeService;
 
     /**
+     * 确认方案
+     *  @param response
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/confirmScheme" , method = RequestMethod.POST)
+    public ResultDTO confirmScheme(HttpServletResponse response, HttpServletRequest request, Long userId,String cation) {
+        if(!verifyParam(userId)){
+            return ResultDTOBuilder.failure("00001");
+        }
+        schemeService.confirmScheme(userId,cation);
+        return ResultDTOBuilder.success();
+    }
+
+    /**
      * 查询方案
      *  @param response
      * @param request
