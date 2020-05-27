@@ -51,7 +51,7 @@
                 and id = #{user.id}
             </if>
             <if test="user.name != null and user.name != ''">
-                and name = #{user.name}
+                and name like concat(concat("%",#{user.name}),"%")
             </if>
             <if test="user.phone != null and user.phone != ''">
                 and phone = #{user.phone}
@@ -69,7 +69,7 @@
                 and birthday = #{user.birthday}
             </if>
             <if test="user.organ != null and user.organ != ''">
-                and organ = #{user.organ}
+                and organ like concat(concat("%",#{user.organ}),"%")
             </if>
             <if test="user.diagnose != null and user.diagnose != ''">
                 and diagnose = #{user.diagnose}

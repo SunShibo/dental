@@ -21,6 +21,7 @@
         <result property="status" column="status" jdbcType="VARCHAR"/>
         <result property="doctor" column="doctor" jdbcType="VARCHAR"/>
         <result property="scheme" column="scheme" jdbcType="VARCHAR"/>
+        <result property="braceStatus" column="brace_status" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
@@ -43,7 +44,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="UserMap">
         select
-          id, name, phone, gender, age, region, birthday, organ, diagnose, create_time, password, wxid, doctor_id, state, head ,status ,doctor
+          *
         from brace.user
         <where>
             <if test="user.id != null">

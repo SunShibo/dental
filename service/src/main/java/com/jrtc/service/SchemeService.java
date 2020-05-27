@@ -28,30 +28,31 @@ public class SchemeService {
     @Autowired
     private InformDAO informDAO;
 
-    public  void  confirmScheme(Long userId,String cation){
-        UserBO userBOOld=userDAO.queryById(userId);
+    public void confirmScheme(Long userId, String cation) {
+        UserBO userBOOld = userDAO.queryById(userId);
 
         //修改user表 方案状态
-        UserBO userBO=new UserBO();
+        UserBO userBO = new UserBO();
         userBO.setId(userId);
-        if(cation.equals("user")){
+        if (cation.equals("user")) {
             userBO.setBraceStatus("yes");
-        }else{
+        } else {
             userBO.setScheme("yes");
         }
         userDAO.update(userBO);
 
         //后台添加通知
-        InformBO informBO=new InformBO();
+        InformBO informBO = new InformBO();
         informBO.setUserId(-1L);
         informBO.setStatus("no");
-        if(cation.equals("user")){
-            informBO.setContent("用户:"+userBOOld.getName()+",手机号:"+userBOOld.getPhone()+",用户以确认制作");
-        }else{
-            informBO.setContent("用户:"+userBOOld.getName()+",手机号:"+userBOOld.getPhone()+"，医生以确认制作");
+        if (cation.equals("user")) {
+            informBO.setContent("用户:" + userBOOld.getName() + ",手机号:" + userBOOld.getPhone() + ",用户以确认制作");
+        } else {
+            informBO.setContent("用户:" + userBOOld.getName() + ",手机号:" + userBOOld.getPhone() + "，医生以确认制作");
         }
         informDAO.insert(informBO);
     }
+
     /**
      * 通过ID查询单条数据
      *
@@ -64,6 +65,7 @@ public class SchemeService {
 
     /**
      * 查询多条数据
+     *
      * @return 对象列表
      */
     public List<SchemeBO> queryAllByUserId(Long userId) {

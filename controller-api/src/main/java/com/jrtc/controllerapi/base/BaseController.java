@@ -28,7 +28,7 @@ public class BaseController {
 
         return (UserBO) this.getSession(request, CURRENT_LOGIN_USER);
 //        UserBO userBO=new UserBO();
-//        userBO.setId(new Long(66));
+//        userBO.setId(new Long(44));
 //        return userBO;
     }
     /**
