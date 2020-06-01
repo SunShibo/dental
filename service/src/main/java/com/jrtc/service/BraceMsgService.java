@@ -179,6 +179,15 @@ public class BraceMsgService  {
     }
 
 
+    //确认制作
+    public void updaUnderMake(Long userId) {
+        List<Long> ids = braceMsgDao.queryUnderMake(userId);
+        braceMsgDao.updaMake(ids);
+    }
+
+
+
+
     /**
      * 新增数据
      *

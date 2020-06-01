@@ -188,7 +188,7 @@
     </select>
 
     <select id="queryCount"  resultType="int" >
-            SELECT count(*) FROM `user` WHERE state=#{state}  AND doctor_id=#{doctorId} AND status='yes'
+            SELECT count(*) FROM `user` WHERE state=#{state} and `name` like concat(concat("%",#{name}),"%") AND doctor_id=#{doctorId} AND status='yes'
     </select>
 
 

@@ -37,14 +37,14 @@ public class DoctorController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/queryPatient", method = RequestMethod.POST)
-    public ResultDTO queryPatient(HttpServletResponse response, HttpServletRequest request,String state,PageUtil pageUtil) {
+    public ResultDTO queryPatient(HttpServletResponse response, HttpServletRequest request,String state,String name,PageUtil pageUtil) {
         if (!verifyParam(state)) {
             return ResultDTOBuilder.failure("00001");
         }
         log.info("获取登录用户");
         UserBO loginUser = getLoginUser(request);
         log.info("调用service");
-        Map<String, Object> resultMap = userService.queryPatient(state, loginUser.getId(), pageUtil);
+        Map<String, Object> resultMap = userService.queryPatient(state, loginUser.getId(),name, pageUtil);
         log.info("返回信息");
         return ResultDTOBuilder.success(resultMap);
     }

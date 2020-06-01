@@ -120,6 +120,10 @@
         SELECT id FROM  brace_msg WHERE user_id=#{userId}  and status='no' ORDER BY start_time ASC LIMIT 0 , 10
     </select>
 
+    <select id="queryUnderMake" resultType="long">
+        SELECT id FROM  brace_msg WHERE user_id=#{userId}  and status='no' ORDER BY start_time ASC LIMIT 0 , 1
+    </select>
+
     <!--确认制作-->
     <select id="updaMake" >
         update brace_msg set  status='yes' , affirm_time=NOW() where

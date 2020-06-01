@@ -132,15 +132,15 @@ public class UserService  {
         return  userDao.queryDocId();
     }
 
-    public Map<String,Object> queryPatient(String state,Long doctorId,PageUtil pageUtil) {
+    public Map<String,Object> queryPatient(String state,Long doctorId,String name,PageUtil pageUtil) {
         log.info("计算时间");
         String date = DateUtil.simpDateStr("yyyy-MM-dd",new Date());
         log.info("state："+state);
         log.info("doctorId："+doctorId);
         Map<String,Object> result=new HashMap<String,Object>();
-        int underway = userDao.queryCount("underway", doctorId);
+        int underway = userDao.queryCount("underway", doctorId,name);
         log.info("underway："+underway);
-        int accomplish = userDao.queryCount("accomplish", doctorId);
+        int accomplish = userDao.queryCount("accomplish", doctorId,name);
         log.info("accomplish："+accomplish);
 
         UserBO userBO=new UserBO();

@@ -79,7 +79,7 @@ public interface UserDAO {
      */
     List<DoctorBO> queryDocId();
 
-    int queryCount(@Param("state")String state,@Param("doctorId")Long doctorId);
+    int queryCount(@Param("state")String state,@Param("doctorId")Long doctorId,@Param("name")String name);
 
     IPage<PatientBO>  queryPatient(Page<PatientBO> page ,@Param("user")UserBO userBO);
 

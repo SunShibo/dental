@@ -187,4 +187,22 @@ public class BraceController extends BaseController {
     }
 
 
+    /**
+     * 确认制作
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/updaUnderMake", method = RequestMethod.POST)
+    public ResultDTO updaUnderMake(HttpServletRequest request, HttpServletResponse response, Long userId) {
+        if (userId == null) {
+            return ResultDTOBuilder.failure("00001");
+        }
+        braceMsgService.updaUnderMake(userId);
+
+        return ResultDTOBuilder.success();
+    }
+
+
 }

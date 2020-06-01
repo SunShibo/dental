@@ -90,6 +90,7 @@ public interface BraceMsgDAO {
 
 
     List<Long> queryMake(@Param("userId") Long userId);
+    List<Long> queryUnderMake(@Param("userId") Long userId);
 
 
     void updaMake(@Param("ids")List<Long> ids);
