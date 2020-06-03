@@ -224,6 +224,10 @@
             <if test="user.status!=null and user.status!=''">
                 and status=#{user.status}
             </if>
+            <if test="user.name!=null and user.name!=''">
+                and  `name` like concat(concat("%",#{user.name}),"%")
+            </if>
+
         </where>
     </select>
 
