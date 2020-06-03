@@ -160,6 +160,7 @@ public class UserService  {
         userBO.setStatus(Constants.YES.getValue());
         userBO.setDoctorId(doctorId);
         userBO.setState(state);
+        userBO.setName(name);
         log.info("查询："+accomplish);
         Page<PatientBO> page = new Page<PatientBO>(pageUtil.getPageNo(), pageUtil.getPageSize());
         log.info("查询中");
