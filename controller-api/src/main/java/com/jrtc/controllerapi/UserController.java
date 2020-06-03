@@ -42,6 +42,47 @@ public class UserController extends BaseController {
     private KeyValueService keyValueService;
 
 
+    //修改密码
+    /**
+     * 发送验证码
+     * 登陆注册
+     * 修改绑定
+     *
+     * @param phone
+     * @return
+     */
+    @RequestMapping(value = "/updatePassword" ,method = RequestMethod.POST)
+    public ResultDTO updatePassword(String name,String phone,String vCode,String newPas, HttpServletRequest request, HttpServletResponse response) {
+        log.info("start...........send.................");
+        if (!verifyParam(phone)) {
+            return ResultDTOBuilder.failure("00001");
+        }
+        //手机号非空+格式判断
+        if (!AccountValidatorUtil.isMobile(phone)) {
+            return ResultDTOBuilder.failure("02000");
+        }
+
+        //获取Redis中的用户验证码
+        Object o = redisUtil.get(phone + Constants.CAPTCHA.getValue());
+        if (o == null) {
+            return ResultDTOBuilder.failure("02001");
+        }
+        String mobileAuthCode = String.valueOf(o);
+        //如果和用户收到的验证码相同
+        if (!vCode.equals(mobileAuthCode)) {
+            return ResultDTOBuilder.failure("02011");
+        }
+
+        UserBO userBO=new UserBO();
+        userBO.setName(name);
+        userBO.setPassword(newPas);
+        Integer result=userService.updatePassword(userBO);
+
+        if(result<=0){
+            return ResultDTOBuilder.failure("02011");
+        }
+        return ResultDTOBuilder.success();
+    }
 
     /**
      * 发送验证码

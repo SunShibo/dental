@@ -91,6 +91,19 @@ public class UserService  {
 
 
     /**
+     * 修改数据
+     *
+     * @param user 实例对象
+     * @return 实例对象
+     */
+    public Integer updatePassword(UserBO user) {
+        return userDao.updatePassword(user);
+    }
+
+
+
+
+    /**
      * 修改方案确认状态
      *
      * @param user 实例对象

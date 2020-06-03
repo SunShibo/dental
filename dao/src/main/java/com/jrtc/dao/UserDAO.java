@@ -64,6 +64,14 @@ public interface UserDAO {
     int update(UserBO user);
 
     /**
+     * 修改数据
+     *
+     * @param user 实例对象
+     * @return 影响行数
+     */
+    int updatePassword(UserBO user);
+
+    /**
      * 通过主键删除数据
      *
      * @param id 主键

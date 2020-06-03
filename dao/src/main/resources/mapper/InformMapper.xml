@@ -31,7 +31,7 @@
         select
           *
         from brace.inform
-        where status='no' order by create_time desc
+        where status='no' and user_id='-1' order by create_time desc
     </select>
 
 
