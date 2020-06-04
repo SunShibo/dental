@@ -110,6 +110,7 @@ public class SchemeService {
             InformBO informBO=new InformBO();
             informBO.setUserId(userBO.getDoctorId());
             informBO.setType(userBO.getId()+"");
+            informBO.setContent("用户:"+userBO.getName()+",手机号:"+userBO.getPhone()+",已上传矫正方案");
             informService.insertDoctor(informBO);
         }
         return scheme;
