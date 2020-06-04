@@ -165,6 +165,9 @@
             <if test="scheme!=null and scheme!=''">
                 scheme=#{scheme} ,
             </if>
+            <if test="openId!=null and openId!=''">
+                open_id=#{openId} ,
+            </if>
         </set>
         where id = #{id}
     </update>
@@ -224,6 +227,10 @@
             <if test="user.status!=null and user.status!=''">
                 and status=#{user.status}
             </if>
+            <if test="user.name!=null and user.name!=''">
+                and  `name` like concat(concat("%",#{user.name}),"%")
+            </if>
+
         </where>
     </select>
 

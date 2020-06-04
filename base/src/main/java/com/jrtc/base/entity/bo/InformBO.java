@@ -13,10 +13,21 @@ public class InformBO implements Serializable {
     private static final long serialVersionUID = 211765876088056269L;
     
     private Long id;
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     /**
     * 用户id
     */
     private Long userId;
+    private String openId;
     /**
     * 创建时间
     */
@@ -30,6 +41,18 @@ public class InformBO implements Serializable {
     */
     private String content;
 
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
 
     public Long getId() {
         return id;

@@ -20,6 +20,8 @@ public interface InformDAO {
 
     List<InformBO> queryNewInform();
 
+    List<InformBO> queryDoctorNewInform();
+
     /**
      * 通过ID查询单条数据
      *
@@ -27,6 +29,13 @@ public interface InformDAO {
      * @return 实例对象
      */
     InformBO queryById(Long id);
+
+    /**
+     * 通过ID查询单条数据
+     *
+     * @return 实例对象
+     */
+    InformBO queryByType(String type);
 
     /**
      * 查询指定行数据

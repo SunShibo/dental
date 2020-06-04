@@ -165,6 +165,9 @@
             <if test="scheme!=null and scheme!=''">
                 scheme=#{scheme} ,
             </if>
+            <if test="openId!=null and openId!=''">
+                open_id=#{openId} ,
+            </if>
         </set>
         where id = #{id}
     </update>

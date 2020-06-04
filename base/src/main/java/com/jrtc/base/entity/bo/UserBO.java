@@ -17,6 +17,16 @@ public class UserBO implements Serializable {
     private String scheme;
 
 
+    private String openId;
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
     private Long id;
     /**
     * 姓名

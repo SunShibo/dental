@@ -8,6 +8,7 @@
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="status" column="status" jdbcType="VARCHAR"/>
         <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="openId" column="open_id" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
@@ -16,6 +17,14 @@
           id, user_id, create_time, status, content
         from brace.inform
         where id = #{id}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryByType" resultMap="InformMap">
+        select
+        id, user_id, create_time, status, content
+        from brace.inform
+        where type = #{type} and status='no' limit 1
     </select>
 
     <!--查询指定行数据-->
@@ -32,6 +41,14 @@
           *
         from brace.inform
         where status='no' and user_id='-1' order by create_time desc
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryDoctorNewInform" resultMap="InformMap">
+        select
+        brace.inform.*,user.open_id
+        from brace.inform,user
+        where inform.user_id=user.id and status='no' and `type`='doctor' order by create_time desc
     </select>
 
 
@@ -62,8 +79,8 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into brace.inform(user_id, create_time, status, content)
-        values (#{userId}, now(), #{status}, #{content})
+        insert into brace.inform(user_id, create_time, status, content,type)
+        values (#{userId}, now(), #{status}, #{content},#{type})
     </insert>
 
     <!--通过主键修改数据-->

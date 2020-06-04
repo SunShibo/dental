@@ -35,6 +35,16 @@ public class InformService {
     }
 
     /**
+     * 查询未读的信息
+     * @return 实例对象
+     */
+    public List<InformBO> queryDoctorNewInform() {
+        return this.informDao.queryDoctorNewInform();
+    }
+
+
+
+    /**
      * 通过ID查询单条数据
      *
      * @param id 主键
@@ -61,6 +71,19 @@ public class InformService {
      * @return 实例对象
      */
     public InformBO insert(InformBO inform) {
+        inform.setCreateTime(new Date());
+        inform.setStatus(Constants.NO.getValue());
+        this.informDao.insert(inform);
+        return inform;
+    }
+
+    /**
+     * 新增数据
+     *
+     * @param inform 实例对象
+     * @return 实例对象
+     */
+    public InformBO insertDoctor(InformBO inform) {
         inform.setCreateTime(new Date());
         inform.setStatus(Constants.NO.getValue());
         this.informDao.insert(inform);

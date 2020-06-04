@@ -72,7 +72,10 @@ public class SchemeController extends BaseController {
             return ResultDTOBuilder.failure("00001");
         }
         schemeBO.setCreateTime(new Date());
-        schemeService.insert(schemeBO);
+        SchemeBO schemeBO1=schemeService.insertSendDoctorMes(schemeBO);
+        if(schemeBO1==null){
+            return ResultDTOBuilder.failure("02012");
+        }
         return ResultDTOBuilder.success();
     }
 

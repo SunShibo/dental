@@ -1,5 +1,6 @@
 package com.jrtc.service;
 
+import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jrtc.base.config.constants.Constants;
@@ -85,6 +86,7 @@ public class UserService  {
      * @return 实例对象
      */
     public UserBO update(UserBO user) {
+        user.setPassword(SecureUtil.md5(user.getPassword()));
         this.userDao.update(user);
         return this.queryById(user.getId());
     }

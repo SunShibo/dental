@@ -27,6 +27,8 @@ public class SchemeService {
     private UserDAO userDAO;
     @Autowired
     private InformDAO informDAO;
+    @Autowired
+    InformService informService;
 
     public void confirmScheme(Long userId, String cation) {
         UserBO userBOOld = userDAO.queryById(userId);
@@ -81,6 +83,35 @@ public class SchemeService {
 
     public SchemeBO insert(SchemeBO scheme) {
         this.schemeDao.insert(scheme);
+        return scheme;
+    }
+
+    /**
+     * 新增数据
+     *
+     * @param scheme 实例对象
+     * @return 实例对象
+     */
+
+    public SchemeBO insertSendDoctorMes(SchemeBO scheme) {
+        this.schemeDao.insert(scheme);//添加方案
+
+        //查询该用户是否绑定了医生
+        UserBO userBO=userDAO.queryById(scheme.getUserId());
+        if(userBO.getDoctorId()==null){
+            //没绑定医生，return异常
+            return null;
+        }
+
+        //判断是否医生是否已经有该用户的未读消息
+        InformBO informBOResult=informDAO.queryByType(userBO.getId()+"");
+        if(informBOResult==null){
+            //绑定医生，给医生发送消息
+            InformBO informBO=new InformBO();
+            informBO.setUserId(userBO.getDoctorId());
+            informBO.setType(userBO.getId()+"");
+            informService.insertDoctor(informBO);
+        }
         return scheme;
     }
 
