@@ -37,8 +37,8 @@ public class SchemeController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/notice" , method = RequestMethod.POST)
-    public ResultDTO notice(HttpServletResponse response, HttpServletRequest request) {
-        return ResultDTOBuilder.success(informService.queryNewInform());
+    public ResultDTO notice(Long userId,HttpServletResponse response, HttpServletRequest request) {
+        return ResultDTOBuilder.success(informService.queryNewInform(userId));
     }
 
     /**

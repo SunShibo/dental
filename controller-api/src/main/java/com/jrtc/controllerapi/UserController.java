@@ -52,8 +52,8 @@ public class UserController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/updatePassword" ,method = RequestMethod.POST)
-    public ResultDTO updatePassword(String name,String phone,String vCode,String newPas, HttpServletRequest request, HttpServletResponse response) {
-        log.info("start...........send.................");
+    public ResultDTO updatePassword(String phone,String vCode,String newPass, HttpServletRequest request, HttpServletResponse response) {
+        log.info("start...........updatePassword.................");
         if (!verifyParam(phone)) {
             return ResultDTOBuilder.failure("00001");
         }
@@ -63,24 +63,22 @@ public class UserController extends BaseController {
         }
 
         //获取Redis中的用户验证码
-        Object o = redisUtil.get(phone + Constants.CAPTCHA.getValue());
-        if (o == null) {
-            return ResultDTOBuilder.failure("02001");
-        }
-        String mobileAuthCode = String.valueOf(o);
-        //如果和用户收到的验证码相同
-        if (!vCode.equals(mobileAuthCode)) {
-            return ResultDTOBuilder.failure("02011");
-        }
+//        Object o = redisUtil.get(phone + Constants.CAPTCHA.getValue());
+//        if (o == null) {
+//            return ResultDTOBuilder.failure("02002");
+//        }
+//        String mobileAuthCode = String.valueOf(o);
+//        System.out.println("mobileAuthCode"+mobileAuthCode);
+//        //如果和用户收到的验证码相同
+//        if (!vCode.equals(mobileAuthCode)) {
+//            return ResultDTOBuilder.failure("02002");
+//        }
 
         UserBO userBO=new UserBO();
-        userBO.setName(name);
-        userBO.setPassword(newPas);
+        userBO.setPassword(SecureUtil.md5(newPass));
+        userBO.setPhone(phone);
         Integer result=userService.updatePassword(userBO);
-
-        if(result<=0){
-            return ResultDTOBuilder.failure("02011");
-        }
+        System.out.println("result"+result);
         return ResultDTOBuilder.success();
     }
 
@@ -169,8 +167,9 @@ public class UserController extends BaseController {
         UserBO userBO = userService.queryByPhone(phone);
         if(userBO!=null){
             //用户已存在
-            return ResultDTOBuilder.failure("02007");
+            return ResultDTOBuilder.failure("02008");
         }
+
         //获取Redis中的用户验证码
         Object o = redisUtil.get(phone + Constants.CAPTCHA.getValue());
         if (o == null) {

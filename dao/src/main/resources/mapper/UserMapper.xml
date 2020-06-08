@@ -176,8 +176,8 @@
     <!--通过主键修改数据-->
     <update id="updatePassword">
         update brace.user
-                password = #{password},
-        where `name` = #{name} and phone=#{phone}
+         set  `password` = #{password}
+        where `phone`=#{phone}
     </update>
     <!--通过主键删除-->
     <delete id="deleteById">

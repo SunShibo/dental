@@ -19,6 +19,7 @@ import java.util.List;
 public interface InformDAO {
 
     List<InformBO> queryNewInform();
+    List<InformBO> queryInformUserById(Long userId);
 
     List<InformBO> queryDoctorNewInform();
 

@@ -16,12 +16,12 @@ public class TicketManagerListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce){
         System.out.println("-------------TicketManagerListener contextInitialized-------------");
-        TicketManager.init(WXConfig.PUBLIC_JSAPI,15,60*119);
+        //TicketManager.init(WXConfig.PUBLIC_JSAPI,15,60*119);
     }
 
     @Override
     public  void contextDestroyed(ServletContextEvent sce) {
         System.out.println("-------------TicketManagerListener contextDestroyed-------------");
-        TicketManager.destroyed();
+        //TicketManager.destroyed();
     }
 }

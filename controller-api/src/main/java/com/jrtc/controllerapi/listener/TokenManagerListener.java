@@ -16,13 +16,13 @@ public class TokenManagerListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce){
         System.out.println("-------------TokenManagerListener contextInitialized-------------");
-        TokenManager.init(WXConfig.PUBLIC_JSAPI,WXConfig.appsecret);
+//        TokenManager.init(WXConfig.PUBLIC_JSAPI,WXConfig.appsecret);
     }
 
     @Override
     public  void contextDestroyed(ServletContextEvent sce) {
         System.out.println("-------------TokenManagerListener contextDestroyed-------------");
-        TicketManager.destroyed();
+        //TicketManager.destroyed();
     }
 
 }

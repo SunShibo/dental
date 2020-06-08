@@ -44,6 +44,14 @@
     </select>
 
     <!--查询指定行数据-->
+    <select id="queryInformUserById" parameterType="java.lang.Long" resultMap="InformMap">
+        select
+          *
+        from brace.inform
+        where  user_id=#{userId} order by create_time desc
+    </select>
+
+    <!--查询指定行数据-->
     <select id="queryDoctorNewInform" resultMap="InformMap">
         select
         brace.inform.*,user.open_id

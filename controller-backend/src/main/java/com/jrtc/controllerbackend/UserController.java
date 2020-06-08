@@ -68,6 +68,10 @@ public class UserController extends BaseController {
      */
     @RequestMapping(value = "/addDoctor" , method = RequestMethod.POST)
     public ResultDTO addDoctor(HttpServletResponse response, HttpServletRequest request, UserBO userParam) {
+        if(userService.queryByPhone(userParam.getPhone())!=null){
+            return ResultDTOBuilder.failure("02008");
+        }
+
         userParam.setDoctor(Constants.YES.getValue());
         userParam.setCreateTime(new Date());
         userParam.setPassword(SecureUtil.md5(userParam.getPassword()));

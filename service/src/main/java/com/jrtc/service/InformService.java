@@ -30,8 +30,13 @@ public class InformService {
      * 查询未读的信息
      * @return 实例对象
      */
-    public List<InformBO> queryNewInform() {
-        return this.informDao.queryNewInform();
+    public List<InformBO> queryNewInform(Long userId) {
+        if(userId==null){
+            return this.informDao.queryNewInform();
+        }else{
+            return this.informDao.queryInformUserById(userId);
+        }
+
     }
 
     /**
