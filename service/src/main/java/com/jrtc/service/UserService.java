@@ -86,7 +86,9 @@ public class UserService  {
      * @return 实例对象
      */
     public UserBO update(UserBO user) {
-        user.setPassword(SecureUtil.md5(user.getPassword()));
+        if(user.getPassword()!=null&&!user.getPassword().equals("")){
+            user.setPassword(SecureUtil.md5(user.getPassword()));
+        }
         this.userDao.update(user);
         return this.queryById(user.getId());
     }
